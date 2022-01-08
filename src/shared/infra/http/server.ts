@@ -1,10 +1,15 @@
+/* eslint-disable import/first */
+require("dotenv").config();
+
+import "module-alias/register";
+
 import express from "express";
 
-import router from "./routes";
+import appRoutes from "./app.routes";
 
 const app = express();
 
-app.use(router);
+app.use(appRoutes);
 
 const PORT = process.env.PORT || 3333;
 

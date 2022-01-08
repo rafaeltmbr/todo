@@ -1,6 +1,8 @@
 # folders
 node_modules/
 
+# application files
+.env
 
 # yarn files
 yarn lock
