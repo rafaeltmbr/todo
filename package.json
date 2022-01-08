@@ -11,6 +11,7 @@
     "typeorm": "ts-node-dev --transpile-only node_modules/typeorm/cli.js"
   },
   "dependencies": {
+    "@types/nodemailer": "^6.4.4",
     "bcrypt": "^5.0.1",
     "celebrate": "^15.0.0",
     "cors": "^2.8.5",
@@ -18,6 +19,7 @@
     "express": "^4.17.2",
     "express-async-errors": "^3.1.1",
     "module-alias": "^2.2.2",
+    "nodemailer": "^6.7.2",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.10",
     "tsyringe": "^4.6.0",
