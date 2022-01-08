@@ -9,6 +9,8 @@ import express from "express";
 
 import "../typeorm/connection";
 
+import "../../containers";
+
 import { appRouter } from "./app.routes";
 
 const app = express();

@@ -16,6 +16,7 @@
     "module-alias": "^2.2.2",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.10",
+    "tsyringe": "^4.6.0",
     "typeorm": "0.2.41"
   },
   "devDependencies": {

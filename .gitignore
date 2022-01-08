@@ -6,7 +6,8 @@ dist/
 .env
 
 # yarn files
-yarn lock
+yarn.lock
+yarn-error.log
 
 # npm files
 package-lock.json
