@@ -1,3 +1,5 @@
+import "module-alias/register";
+
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateUserTable1641654054163 implements MigrationInterface {

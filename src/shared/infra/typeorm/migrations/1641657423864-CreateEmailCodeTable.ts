@@ -1,3 +1,4 @@
+import { constants } from "@config/constants";
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateEmailCodeTable1641657423864 implements MigrationInterface {
@@ -15,7 +16,7 @@ export class CreateEmailCodeTable1641657423864 implements MigrationInterface {
           },
           {
             name: "code",
-            type: "char(6)",
+            type: `char(${constants.emailCodeLength})`,
             isNullable: false,
           },
           {

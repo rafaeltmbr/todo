@@ -11,8 +11,11 @@
     "typeorm": "ts-node-dev --transpile-only node_modules/typeorm/cli.js"
   },
   "dependencies": {
+    "celebrate": "^15.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
+    "express-async-errors": "^3.1.1",
     "module-alias": "^2.2.2",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.10",
@@ -20,6 +23,7 @@
     "typeorm": "0.2.41"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/module-alias": "^2.0.1",
     "@types/node": "^8.0.29",
@@ -44,6 +48,7 @@
   },
   "_moduleAliases": {
     "@modules": "./src/modules",
-    "@shared": "./src/shared"
+    "@shared": "./src/shared",
+    "@config": "./src/config"
   }
 }
