@@ -1,9 +1,7 @@
 import express from "express";
 
-import userRoutes from "@modules/user/infra/http/routes/user.routes";
+import { userRouter } from "@modules/user/infra/http/routes/user.routes";
 
-const router = express.Router();
+export const appRouter = express.Router();
 
-router.use(userRoutes);
-
-export default router;
+appRouter.use(userRouter);

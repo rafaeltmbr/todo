@@ -3,13 +3,15 @@ require("dotenv").config();
 
 import "module-alias/register";
 
+import "reflect-metadata";
+
 import express from "express";
 
-import appRoutes from "./app.routes";
+import { appRouter } from "./app.routes";
 
 const app = express();
 
-app.use(appRoutes);
+app.use(appRouter);
 
 const PORT = process.env.PORT || 3333;
 
