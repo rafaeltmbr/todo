@@ -1,0 +1,9 @@
+# folders
+node_modules/
+
+
+# yarn files
+yarn lock
+
+# npm files
+package-lock.json
