@@ -42,7 +42,7 @@
     }
   },
   "_moduleAliases": {
-    "@modules": "./dist/modules",
-    "@shared": "./dist/shared"
+    "@modules": "./src/modules",
+    "@shared": "./src/shared"
   }
 }

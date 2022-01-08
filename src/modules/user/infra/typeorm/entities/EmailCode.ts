@@ -11,7 +11,7 @@ export class EmailCode {
   @PrimaryColumn("varchar")
   email!: string;
 
-  @Column("char(6)")
+  @Column("char")
   code!: string;
 
   @Column()
