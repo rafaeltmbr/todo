@@ -15,11 +15,11 @@ export class EmailCode {
   code!: string;
 
   @Column()
-  attemps!: number;
+  attempts!: number;
 
   @CreateDateColumn()
-  created_at!: string;
+  created_at!: Date;
 
   @UpdateDateColumn()
-  updated_at!: string;
+  updated_at!: Date;
 }

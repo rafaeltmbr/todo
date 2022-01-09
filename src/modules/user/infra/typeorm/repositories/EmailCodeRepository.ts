@@ -1,4 +1,4 @@
-import { ICreateUserDTO } from "@modules/user/dtos/ICreateUserDTO";
+import { ICreateEmailCodeDTO } from "@modules/user/dtos/ICreateEmailCodeDTO";
 import { IEmailCodeRepository } from "@modules/user/repositories/IEmailCodeRepository";
 import { getRepository, Repository } from "typeorm";
 import { EmailCode } from "../entities/EmailCode";
@@ -14,7 +14,7 @@ export class EmailCodeRepository implements IEmailCodeRepository {
     return this.repository.findOne({ email });
   }
 
-  create(data: ICreateUserDTO) {
+  create(data: ICreateEmailCodeDTO) {
     const emailCode = this.repository.create(data);
     return this.repository.save(emailCode);
   }

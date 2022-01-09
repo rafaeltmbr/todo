@@ -1,4 +1,4 @@
-import { constants } from "@config/constants";
+import { constants } from "@shared/config/constants";
 import { celebrate, Segments, Joi } from "celebrate";
 import express from "express";
 import { UserController } from "../controllers/UserController";
@@ -16,4 +16,14 @@ userUserRouter.post(
     },
   }),
   UserController.create
+);
+
+userUserRouter.post(
+  "/email_check",
+  celebrate({
+    [Segments.BODY]: {
+      email: Joi.string().trim().email().required(),
+    },
+  }),
+  UserController.emailCheck
 );

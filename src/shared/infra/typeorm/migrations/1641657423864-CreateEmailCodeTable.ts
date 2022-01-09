@@ -1,4 +1,4 @@
-import { constants } from "@config/constants";
+import { constants } from "@shared/config/constants";
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateEmailCodeTable1641657423864 implements MigrationInterface {
@@ -32,7 +32,7 @@ export class CreateEmailCodeTable1641657423864 implements MigrationInterface {
             default: "now()",
           },
           {
-            name: "update_at",
+            name: "updated_at",
             type: "timestamp",
             isNullable: false,
             default: "now()",
