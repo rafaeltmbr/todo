@@ -18,10 +18,15 @@ export class CheckEmailCodeService {
   public async execute(data: IExecute) {
     const emailCode = await this.emailCodeRepository.findByEmail(data.email);
 
-    if (!emailCode || emailCode.code !== data.code)
-      throw new LocaleError("emailCodeInvalid");
+    if (!emailCode) throw new LocaleError("emailCodeInvalid");
 
     if (emailCode.attempts >= constants.maxPasswordRecoveryAttempts)
       throw new LocaleError("emailCodeMaximumAttempts");
+
+    if (emailCode.code !== data.code) {
+      emailCode.attempts += 1;
+      await this.emailCodeRepository.update(emailCode);
+      throw new LocaleError("emailCodeInvalid");
+    }
   }
 }

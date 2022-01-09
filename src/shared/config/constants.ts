@@ -4,6 +4,7 @@ export const constants = <const>{
   minPasswordLength: 8,
   emailCodeLength: 6,
   bcryptSaltRouds: 8,
-  maxPasswordRecoveryAttempts: 3,
+  maxPasswordRecoveryAttempts: 5,
   maxPasswordRecoveryTimeMs: 5 * 60 * 1000, // 5 min
+  jwtExpirationInterval: 24 * 60 * 60, // 1 day
 };

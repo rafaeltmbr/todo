@@ -1,6 +1,8 @@
 import { CheckEmailCodeService } from "@modules/user/services/user/CheckEmailCodeServices";
 import { CreateUserAccountService } from "@modules/user/services/user/CreateUserAccountService";
+import { GetProfileService } from "@modules/user/services/user/GetProfileService";
 import { SendEmailCodeService } from "@modules/user/services/user/SendEmailCodeService";
+import { SessionService } from "@modules/user/services/user/SessionService";
 import { httpStatusCode } from "@shared/infra/http/config/httpStatusCode";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
@@ -25,5 +27,19 @@ export class UserController {
     await checkEmailCode.execute(req.body);
 
     return res.status(httpStatusCode.noContent.status).send();
+  }
+
+  public static async session(req: Request, res: Response) {
+    const session = container.resolve(SessionService);
+    const user = await session.execute(req.body);
+
+    return res.json(user);
+  }
+
+  public static async profile(req: Request, res: Response) {
+    const profileService = container.resolve(GetProfileService);
+    const user = await profileService.execute(req.user);
+
+    return res.json(user);
   }
 }

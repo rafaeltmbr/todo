@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { LocaleError } from "@shared/errors/LocaleError";
 import { NextFunction, Request, Response } from "express";
+import { httpStatusCode } from "../config/httpStatusCode";
 
 export const handleErrorResponse = (
   error: any,
@@ -15,7 +16,7 @@ export const handleErrorResponse = (
       message: error.description.message.en,
     });
 
-  return res.status(400).json({
+  return res.status(httpStatusCode.badRequest.status).json({
     error: true,
     type: "unknown",
     message: error?.message || String(error),

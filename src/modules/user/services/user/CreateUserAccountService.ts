@@ -1,10 +1,11 @@
-import { constants } from "@shared/config/constants";
 import { ICreateUserDTO } from "@modules/user/dtos/ICreateUserDTO";
 import { IHashProvider } from "@modules/user/providers/hash/interfaces/IHashProvider";
 import { IEmailCodeRepository } from "@modules/user/repositories/IEmailCodeRepository";
 import { IUserRepository } from "@modules/user/repositories/IUserRepository";
+import { cleanUserData } from "@modules/user/util/cleanUserData";
 import { LocaleError } from "@shared/errors/LocaleError";
-import { inject, injectable } from "tsyringe";
+import { container, inject, injectable } from "tsyringe";
+import { CheckEmailCodeService } from "./CheckEmailCodeServices";
 
 interface IExecute extends ICreateUserDTO {
   code: string;
@@ -27,12 +28,8 @@ export class CreateUserAccountService {
     if (!emailCode || emailCode.code !== code)
       throw new LocaleError("emailCodeInvalid");
 
-    const codeAge = Date.now() - emailCode.updated_at.getTime();
-    if (codeAge > constants.maxPasswordRecoveryTimeMs)
-      throw new LocaleError("emailCodeExpired");
-
-    if (emailCode.attempts > constants.maxPasswordRecoveryAttempts)
-      throw new LocaleError("emailCodeMaximumAttempts");
+    const checkEmailCode = container.resolve(CheckEmailCodeService);
+    await checkEmailCode.execute({ email, code });
 
     const passwordHash = await this.hashProvider.hash(password);
 
@@ -45,6 +42,6 @@ export class CreateUserAccountService {
       this.emailCodeRepository.delete(emailCode),
     ]);
 
-    return user;
+    return cleanUserData(user);
   }
 }

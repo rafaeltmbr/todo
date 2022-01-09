@@ -22,6 +22,7 @@ export class SendEmailCodeService {
       if (codeAge < constants.maxPasswordRecoveryTimeMs) return;
 
       emailCode.code = await this.codeProvider.generate();
+      emailCode.attempts = 0;
       await this.emailCodeRepository.update(emailCode);
     } else {
       const code = await this.codeProvider.generate();
