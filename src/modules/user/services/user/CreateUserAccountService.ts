@@ -3,7 +3,6 @@ import { IHashProvider } from "@modules/user/providers/hash/interfaces/IHashProv
 import { IEmailCodeRepository } from "@modules/user/repositories/IEmailCodeRepository";
 import { IUserRepository } from "@modules/user/repositories/IUserRepository";
 import { cleanUserData } from "@modules/user/util/cleanUserData";
-import { LocaleError } from "@shared/errors/LocaleError";
 import { container, inject, injectable } from "tsyringe";
 import { CheckEmailCodeService } from "./CheckEmailCodeServices";
 
@@ -21,27 +20,26 @@ export class CreateUserAccountService {
   ) {}
 
   public async execute({ email, name, code, password }: IExecute) {
-    if (await this.userRepository.findByEmail(email))
-      throw new LocaleError("emailAlreadyExists");
-
-    const emailCode = await this.emailCodeRepository.findByEmail(email);
-    if (!emailCode || emailCode.code !== code)
-      throw new LocaleError("emailCodeInvalid");
-
     const checkEmailCode = container.resolve(CheckEmailCodeService);
-    await checkEmailCode.execute({ email, code });
+    const emailCode = await checkEmailCode.execute({ email, code });
+    await this.emailCodeRepository.delete(emailCode);
 
     const passwordHash = await this.hashProvider.hash(password);
 
-    const [user] = await Promise.all([
-      this.userRepository.create({
-        name,
-        email,
-        password: passwordHash,
-      }),
-      this.emailCodeRepository.delete(emailCode),
-    ]);
+    const user = await this.userRepository.findByEmail(email, true);
+    if (user) {
+      user.name = name;
+      user.deleted_at = null;
+      user.password = passwordHash;
+      return cleanUserData(await this.userRepository.update(user));
+    }
 
-    return cleanUserData(user);
+    const newUser = await this.userRepository.create({
+      name,
+      email,
+      password: passwordHash,
+    });
+
+    return cleanUserData(newUser);
   }
 }

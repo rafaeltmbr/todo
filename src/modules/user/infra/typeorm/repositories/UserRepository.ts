@@ -14,8 +14,14 @@ export class UserRepository implements IUserRepository {
     return this.repository.findOne(id);
   }
 
-  public findByEmail(email: string) {
-    return this.repository.findOne({ email });
+  public findByEmail(email: string, withDeleted?: boolean) {
+    return withDeleted
+      ? this.repository
+          .createQueryBuilder("user")
+          .withDeleted()
+          .where({ email })
+          .getOne()
+      : this.repository.findOne({ email });
   }
 
   public create(data: ICreateUserDTO) {

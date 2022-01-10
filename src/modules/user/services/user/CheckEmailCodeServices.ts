@@ -28,5 +28,7 @@ export class CheckEmailCodeService {
       await this.emailCodeRepository.update(emailCode);
       throw new LocaleError("emailCodeInvalid");
     }
+
+    return emailCode;
   }
 }

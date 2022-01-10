@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryColumn,
   UpdateDateColumn,
@@ -21,8 +22,11 @@ export class User {
   password!: string;
 
   @CreateDateColumn()
-  created_at!: string;
+  created_at!: Date;
 
   @UpdateDateColumn()
-  updated_at!: string;
+  updated_at!: Date;
+
+  @DeleteDateColumn()
+  deleted_at!: Date | null;
 }
