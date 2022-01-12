@@ -1,4 +1,14 @@
-import { Column, CreateDateColumn, Entity, UpdateDateColumn } from "typeorm";
+import "module-alias/register";
+import { StorageProvider } from "@shared/providers/storage/implementations";
+import {
+  AfterLoad,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 export interface ITodoListItem {
   value: string;
@@ -7,7 +17,7 @@ export interface ITodoListItem {
 
 @Entity({ name: "todo" })
 export class Todo {
-  @Column("uuid")
+  @PrimaryColumn("uuid")
   id!: string;
 
   @Column("uuid")
@@ -20,11 +30,25 @@ export class Todo {
   list!: ITodoListItem[];
 
   @Column()
-  image_url!: string;
+  image_url!: string | null;
 
   @CreateDateColumn()
   created_at!: Date;
 
   @UpdateDateColumn()
   updated_at!: Date;
+
+  @AfterLoad()
+  buildImageUrl() {
+    this.image_url =
+      this.image_url &&
+      new StorageProvider().getUrlFromFilePath(this.image_url);
+  }
+
+  @BeforeUpdate()
+  buildImagePath() {
+    this.image_url =
+      this.image_url &&
+      new StorageProvider().getFilePathFromUrl(this.image_url);
+  }
 }

@@ -18,6 +18,12 @@ export class CreateTodoTable1641861934454 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: "name",
+            type: "varchar",
+            isUnique: true,
+            isNullable: false,
+          },
+          {
             name: "description",
             type: "varchar",
             isNullable: false,

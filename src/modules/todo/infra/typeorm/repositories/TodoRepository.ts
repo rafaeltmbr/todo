@@ -14,6 +14,10 @@ export class TodoRepository implements ITodoRepository {
     return this.repository.findOne(id);
   }
 
+  public findByName(name: string) {
+    return this.repository.findOne({ name });
+  }
+
   public findByUserId(userId: string) {
     return this.repository.find({ user_id: userId });
   }

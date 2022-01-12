@@ -18,8 +18,11 @@ export const errorType = <const>[
   "emailCodeMaximumAttempts",
   "tokenMissing",
   "appKeyMissing",
+  "operationNotPermitted",
   "userNotFound",
   "userPasswordInvalid",
+  "todoNameAlreadyExists",
+  "todoNotFound",
 ];
 export type ErrorType = typeof errorType[number];
 
@@ -66,6 +69,13 @@ export const errorMessages: Record<ErrorType, IErrorDescription> = {
       pt: "Variável de ambiente APP_KEY não encontrada.",
     },
   },
+  operationNotPermitted: {
+    status: httpStatusCode.forbidden.status,
+    message: {
+      en: "Operation not permitted.",
+      pt: "Operação não permitida.",
+    },
+  },
   userNotFound: {
     status: httpStatusCode.unauthorized.status,
     message: {
@@ -78,6 +88,20 @@ export const errorMessages: Record<ErrorType, IErrorDescription> = {
     message: {
       en: "Invalid password",
       pt: "Senha inválida.",
+    },
+  },
+  todoNameAlreadyExists: {
+    status: httpStatusCode.unauthorized.status,
+    message: {
+      en: "Todo name already exists.",
+      pt: "Nome da tarefa já existente.",
+    },
+  },
+  todoNotFound: {
+    status: httpStatusCode.notFound.status,
+    message: {
+      en: "Todo not found.",
+      pt: "Tarefa não encontrada.",
     },
   },
 };
