@@ -20,7 +20,6 @@ export class CreateTodoTable1641861934454 implements MigrationInterface {
           {
             name: "name",
             type: "varchar",
-            isUnique: true,
             isNullable: false,
           },
           {
@@ -61,6 +60,12 @@ export class CreateTodoTable1641861934454 implements MigrationInterface {
             name: "FK_todo_user",
             onDelete: "cascade",
             onUpdate: "cascade",
+          },
+        ],
+        uniques: [
+          {
+            name: "UQ_todo_name_user_id",
+            columnNames: ["name", "user_id"],
           },
         ],
       })

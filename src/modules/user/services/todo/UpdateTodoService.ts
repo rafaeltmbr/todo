@@ -12,7 +12,7 @@ interface IExecute {
 }
 
 @injectable()
-export class CreateTodoService {
+export class UpdateTodoService {
   constructor(
     @inject("TodoRepository") private todoRepository: ITodoRepository,
     @inject("StorageProvider") private storageProvider: IStorageProvider
@@ -28,7 +28,10 @@ export class CreateTodoService {
     if (
       data.name &&
       data.name !== todo.name &&
-      (await this.todoRepository.findByName(data.name))
+      (await this.todoRepository.findByNameAndUserId({
+        name: data.name,
+        user_id: user.id,
+      }))
     )
       throw new LocaleError("todoNameAlreadyExists");
 

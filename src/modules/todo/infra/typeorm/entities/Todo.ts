@@ -26,10 +26,13 @@ export class Todo {
   @Column()
   name!: string;
 
+  @Column()
+  description!: string;
+
   @Column("json")
   list!: ITodoListItem[];
 
-  @Column()
+  @Column({ type: "varchar" })
   image_url!: string | null;
 
   @CreateDateColumn()

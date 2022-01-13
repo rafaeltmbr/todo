@@ -4,4 +4,4 @@ import { userRouter } from "@modules/user/infra/http/routes/index.routes";
 
 export const appRouter = express.Router();
 
-appRouter.use(userRouter);
+appRouter.use("/user", userRouter);

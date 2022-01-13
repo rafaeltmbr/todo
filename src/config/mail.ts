@@ -1,3 +1,3 @@
 export const mailConfig = <const>{
-  from: "Todo <todo@rafaeltmbr.com>",
+  from: "Todo <todo@rafaeltmbr.com.br>",
 };

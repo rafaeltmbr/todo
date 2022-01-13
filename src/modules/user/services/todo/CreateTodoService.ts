@@ -13,8 +13,13 @@ export class CreateTodoService {
   ) {}
 
   public async execute(data: IData, user: User) {
-    const todo = await this.todoRepository.findByName(data.name);
-    if (todo) throw new LocaleError("todoNameAlreadyExists");
+    const todo = await this.todoRepository.findByNameAndUserId({
+      name: data.name,
+      user_id: user.id,
+    });
+
+    if (todo && todo.user_id === user.id)
+      throw new LocaleError("todoNameAlreadyExists");
 
     return this.todoRepository.create({
       ...data,

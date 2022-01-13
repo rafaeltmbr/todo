@@ -1,5 +1,8 @@
 import { ICreateTodoDTO } from "@modules/todo/dtos/ICreateTodoDTO";
-import { ITodoRepository } from "@modules/todo/repositories/ITodoRepository";
+import {
+  IFindTodoByNameAndUserId,
+  ITodoRepository,
+} from "@modules/todo/repositories/ITodoRepository";
 import { getRepository, Repository } from "typeorm";
 import { Todo } from "../entities/Todo";
 
@@ -14,8 +17,8 @@ export class TodoRepository implements ITodoRepository {
     return this.repository.findOne(id);
   }
 
-  public findByName(name: string) {
-    return this.repository.findOne({ name });
+  public findByNameAndUserId(data: IFindTodoByNameAndUserId) {
+    return this.repository.findOne(data);
   }
 
   public findByUserId(userId: string) {
@@ -32,6 +35,6 @@ export class TodoRepository implements ITodoRepository {
   }
 
   public async delete(todo: Todo) {
-    await this.repository.delete(todo);
+    await this.repository.remove(todo);
   }
 }
