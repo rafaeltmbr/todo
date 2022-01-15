@@ -6,5 +6,6 @@ export const constants = <const>{
   bcryptSaltRouds: 8,
   maxPasswordRecoveryAttempts: 5,
   maxPasswordRecoveryTimeMs: 5 * 60 * 1000, // 5 min
-  jwtExpirationInterval: 24 * 60 * 60, // 1 day
+  userAuthJwtExpirationInterval: 24 * 60 * 60, // 1 day
+  fileUploadJwtExpirationInterval: 5 * 60, // 5 min
 };

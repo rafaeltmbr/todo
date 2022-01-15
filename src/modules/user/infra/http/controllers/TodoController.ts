@@ -1,5 +1,6 @@
 import { CreateTodoService } from "@modules/user/services/todo/CreateTodoService";
 import { DeleteTodoService } from "@modules/user/services/todo/DeleteTodoService";
+import { GetTodoImageUploadLinkService } from "@modules/user/services/todo/GetTodoUploadLinkService";
 import { ListTodoService } from "@modules/user/services/todo/ListTodoService";
 import { ShowTodoService } from "@modules/user/services/todo/ShowTodoService";
 import { UpdateTodoService } from "@modules/user/services/todo/UpdateTodoService";
@@ -40,5 +41,13 @@ export class TodoController {
     const deleteTodo = container.resolve(DeleteTodoService);
     await deleteTodo.execute(req.params.id, req.user);
     return res.status(httpStatusCode.noContent.status).send();
+  }
+
+  public static async upload(req: Request, res: Response) {
+    const getUploadLink = container.resolve(GetTodoImageUploadLinkService);
+    const uploadInfo = await getUploadLink.execute(
+      req.query.mime?.toString() || ""
+    );
+    return res.status(httpStatusCode.ok.status).json(uploadInfo);
   }
 }

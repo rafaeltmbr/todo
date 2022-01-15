@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { UserRepository } from "@modules/user/infra/typeorm/repositories/UserRepository";
 import { LocaleError } from "@shared/errors/LocaleError";
-import { TokenProvider } from "@modules/user/providers/token/TokenProvider";
+import { TokenProvider } from "@shared/providers/token/TokenProvider";
 import { IUserTokenDTO } from "@modules/user/dtos/IUserTokenDTO";
 
 export const authUser = async (

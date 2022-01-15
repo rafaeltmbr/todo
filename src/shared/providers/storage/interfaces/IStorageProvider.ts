@@ -1,8 +1,7 @@
-const folder = <const>["todo"];
-type Folder = typeof folder[number];
+export const storageFolders = <const>["todo"];
+type Folder = typeof storageFolders[number];
 
 export interface IFileUploadParams {
-  name: string;
   folder: Folder;
   mimeType: string;
 }

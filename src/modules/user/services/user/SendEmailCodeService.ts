@@ -1,6 +1,6 @@
 import { constants } from "@shared/config/constants";
 import { mailConfig } from "@config/mail";
-import { ICodeProvider } from "@modules/user/providers/code/interfaces/ICodeProvider";
+import { ICodeProvider } from "@shared/providers/code/interfaces/ICodeProvider";
 import { IEmailCodeRepository } from "@modules/user/repositories/IEmailCodeRepository";
 import { IMailProvider } from "@shared/providers/mail/interfaces/IMailProvider";
 import { inject, injectable } from "tsyringe";

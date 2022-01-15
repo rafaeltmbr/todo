@@ -1,6 +1,6 @@
 import { IUserTokenDTO } from "@modules/user/dtos/IUserTokenDTO";
 import { IHashProvider } from "@modules/user/providers/hash/interfaces/IHashProvider";
-import { ITokenProvider } from "@modules/user/providers/token/interfaces/ITokenProvider";
+import { ITokenProvider } from "@shared/providers/token/interfaces/ITokenProvider";
 import { IUserRepository } from "@modules/user/repositories/IUserRepository";
 import { cleanUserData } from "@modules/user/util/cleanUserData";
 import { LocaleError } from "@shared/errors/LocaleError";

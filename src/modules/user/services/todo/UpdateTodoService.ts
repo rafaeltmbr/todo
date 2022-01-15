@@ -35,7 +35,12 @@ export class UpdateTodoService {
     )
       throw new LocaleError("todoNameAlreadyExists");
 
-    if (todo.image_url && data.image_url && todo.image_url !== data.image_url)
+    if (
+      todo.image_url &&
+      data.image_url !== undefined &&
+      this.storageProvider.getFilePathFromUrl(data.image_url || "") !==
+        this.storageProvider.getFilePathFromUrl(todo.image_url)
+    )
       await this.storageProvider.removeFile(
         this.storageProvider.getFilePathFromUrl(todo.image_url)
       );

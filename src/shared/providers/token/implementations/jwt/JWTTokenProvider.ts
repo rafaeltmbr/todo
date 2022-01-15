@@ -4,10 +4,6 @@ import jwt from "jsonwebtoken";
 
 import { ITokenProvider } from "../../interfaces/ITokenProvider";
 
-const options = {
-  expiresIn: constants.jwtExpirationInterval,
-};
-
 export class JWTTokenProvider implements ITokenProvider {
   private secret: string;
 
@@ -17,8 +13,12 @@ export class JWTTokenProvider implements ITokenProvider {
     this.secret = process.env.APP_KEY;
   }
 
-  encode(data: any) {
+  encode(data: any, expiresIn?: number) {
     return new Promise<string>((res, rej) => {
+      const options = {
+        expiresIn: constants.userAuthJwtExpirationInterval || expiresIn,
+      };
+
       jwt.sign(data, this.secret, options, (err, token) =>
         err ? rej(err) : res(token as string)
       );

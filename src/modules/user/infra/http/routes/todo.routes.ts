@@ -1,3 +1,4 @@
+import { mimeTypes } from "@shared/util/fileTypes";
 import { celebrate, Joi, Segments } from "celebrate";
 import express from "express";
 import { TodoController } from "../controllers/TodoController";
@@ -24,6 +25,20 @@ todoRouter.post(
   TodoController.create
 );
 
+todoRouter.get(
+  "/upload_link",
+  authUser,
+  celebrate({
+    [Segments.QUERY]: {
+      mime: Joi.string()
+        .trim()
+        .valid(...mimeTypes.map((e) => e.mimeType))
+        .required(),
+    },
+  }),
+  TodoController.upload
+);
+
 todoRouter.get("/", authUser, TodoController.list);
 
 todoRouter.get(
@@ -48,7 +63,7 @@ todoRouter.patch(
       name: Joi.string().trim(),
       description: Joi.string().trim(),
       list: Joi.array().items(listItemSchema),
-      image_url: Joi.string().trim(),
+      image_url: Joi.string().trim().allow(null),
     },
   }),
   TodoController.update
