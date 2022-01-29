@@ -14,4 +14,4 @@ on:
     branches:
       - master
 
-name: "Deploy process"
+name: "Deploy process 1.0"
