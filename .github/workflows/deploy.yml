@@ -6,6 +6,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2 # get source code
       - uses: actions/setup-node@v2 # setup node environmet
-        width:
+        with:
           node-version: "16"
       - run: "yarn build"
