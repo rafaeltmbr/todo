@@ -1,17 +1,17 @@
-jobs:
-  deploy-app:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2 # get source code
-      - uses: actions/setup-node@v2 # setup node environmet
-        with:
-          node-version: "16"
-      - run: yarn
-      - run: "yarn build"
+name: "Deploy process 1.0"
 
 on:
   push:
     branches:
       - master
 
-name: "Deploy process 1.0"
+jobs:
+  deploy-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # get source code
+      - with:
+          node-version: "16"
+        uses: actions/setup-node@v2 # setup node environmet
+      - run: yarn
+      - run: "yarn build"
