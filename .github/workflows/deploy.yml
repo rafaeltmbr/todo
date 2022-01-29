@@ -10,8 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2 # get source code
-      - with:
+      - uses: actions/setup-node@v2 # setup node environmet
+        with:
           node-version: "16"
-        uses: actions/setup-node@v2 # setup node environmet
       - run: yarn
       - run: "yarn build"
+
+  dependencies-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # get source code
+      - uses: actions/setup-node@v2 # setup node environmet
+        with:
+          node-version: "16"
+      - run: yarn
