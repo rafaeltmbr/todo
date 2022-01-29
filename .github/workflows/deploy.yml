@@ -2,6 +2,8 @@ name: "Deploy process"
 
 on:
   push:
+    branchs:
+      - master
 
 jobs:
   deploy-app:
