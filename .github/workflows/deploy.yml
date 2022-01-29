@@ -1,4 +1,4 @@
-name: "Deploy process"
+#name: "Deploy process"
 on: [push]
 jobs:
   deploy-app:
