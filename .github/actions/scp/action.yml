@@ -3,6 +3,18 @@ name: Secure Copy
 description: Copy local file/directory into a remote location
 
 inputs:
+  user:
+    description: remote machine user
+    required: true
+
+  host:
+    description: remote host
+    required: true
+
+  key:
+    description: ssh identity file
+    required: true
+
   source:
     description: local file/directory to be copied
     required: true
@@ -13,20 +25,17 @@ inputs:
 
 runs:
   using: composite
-  #env:
-  #  SCP_SRC: "${{ inputs.source }}"
-  #  SCP_DST: "${{ inputs.destination }}"
   steps:
     - name: setup ssh file
       shell: bash
       run: |
         mkdir ~/.ssh -p
-        echo '$SSH_KEY' >> ~/.ssh/key
+        echo '${{ inputs.key }}' >> ~/.ssh/key
         sudo chmod 600 ~/.ssh/key
         cat >>~/.ssh/config <<FINISH
         Host server
-          Hostname $SSH_HOST
-          User $SSH_USER
+          Hostname ${{ inputs.host }}
+          User ${{ inputs.user }}
           IdentityFile ~/.ssh/key
           PubKeyAuthentication yes
           StrictHostKeyChecking no

@@ -24,5 +24,8 @@ jobs:
       - name: copy dist
         uses: "./.github/actions/scp"
         with:
+          user: $SSH_USER
+          host: $SSH_HOST
+          key: $SSH_KEY
           source: dist
           destination: "~/"
