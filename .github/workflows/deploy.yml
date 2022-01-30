@@ -14,12 +14,12 @@ jobs:
       SSH_USER: ${{ secrets.SSH_USER }}
       SSH_KEY: ${{ secrets.SSH_KEY }}
     steps:
-      #- uses: actions/checkout@v2 # get source code
-      #- uses: actions/setup-node@v2 # setup node environmet
-      #  with:
-      #    node-version: "16"
-      #- run: yarn
-      #- run: "yarn build"
+      - uses: actions/checkout@v2 # get source code
+      - uses: actions/setup-node@v2 # setup node environmet
+        with:
+          node-version: "16"
+      - run: yarn
+      - run: "yarn build"
       - name: setup ssh file
         run: |
           mkdir ~/.ssh -p
@@ -35,11 +35,5 @@ jobs:
             RequestTTY no
           FINISH
 
-      - name: Make some silly files
-        run: |
-          mkdir -p foo/bar
-          echo Foo file > foo/foo.txt
-          echo Bar file > foo/bar/bar.txt
-
       - name: copy files via scp
-        run: "scp -F ~/.ssh/config -qr foo server:~/"
+        run: "scp -F ~/.ssh/config -qr dist server:~/foo/"
