@@ -22,7 +22,6 @@ inputs:
 run:
   using: composite
   steps:
-  steps:
     - name: setup ssh file
       shell: bash
       run: |
