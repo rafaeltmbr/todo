@@ -26,6 +26,6 @@ jobs:
         with:
           user: $SSH_USER
           host: $SSH_HOST
-          key: $SSH_KEY
+          key: "$SSH_KEY"
           source: dist
           destination: "~/"
