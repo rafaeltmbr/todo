@@ -23,5 +23,5 @@ jobs:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: "!(node_modules|.github|.vscode|docs)"
+          source: dist src
           destination: "~/transfered"
