@@ -14,13 +14,13 @@ inputs:
 runs:
   using: composite
   env:
-    SCP_SRC: ${{ inputs.source }}
-    SCP_DST: ${{ inputs.destination }}
+    SCP_SRC: "${{ inputs.source }}"
+    SCP_DST: "${{ inputs.destination }}"
   steps:
     - name: setup ssh file
       run: |
         mkdir ~/.ssh -p
-        echo "$SSH_KEY" >> ~/.ssh/key
+        echo '$SSH_KEY' >> ~/.ssh/key
         sudo chmod 600 ~/.ssh/key
         cat >>~/.ssh/config <<FINISH
         Host server
@@ -33,7 +33,7 @@ runs:
         FINISH
 
     - name: maker destination folder if not exists
-      run: ssh server "ls $SCP_SRC || mkdir -p $SCP_SRC"
+      run: ssh server 'ls $SCP_SRC || mkdir -p $SCP_SRC'
 
     - name: copy files via scp
       run: scp -F ~/.ssh/config -qr $SCP_DST server:$SCP_SRC
