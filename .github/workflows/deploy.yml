@@ -35,9 +35,11 @@ jobs:
             RequestTTY no
           FINISH
 
-      - name: connect via ssh
+      - name: Make some silly files
         run: |
-          ssh server <<FINISH
-          echo $(date) > github.txt
-          echo "Hello from github" >> github.txt
-          FINISH
+          mkdir -p foo/bar
+          echo Foo file > foo.txt
+          echo Bar file > foo/bar/bar.txt
+
+      - name: copy files via scp
+        run: "scp -F ~/.ssh/config -qr server:~/"
