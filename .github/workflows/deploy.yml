@@ -36,4 +36,6 @@ jobs:
           FINISH
 
       - name: copy files via scp
-        run: "scp -F ~/.ssh/config -rp dist server:~/foo/dist"
+        run: |
+        ssh server "mkdir -m foo"
+        "scp -F ~/.ssh/config -qr dist server:~/foo/dist"
