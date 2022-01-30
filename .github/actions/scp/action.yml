@@ -1,8 +1,8 @@
-- name: Secure Copy
+name: Secure Copy
 
-- description: Copy local file/directory into a remote location
+description: Copy local file/directory into a remote location
 
-- inputs:
+inputs:
   source:
     description: local file/directory to be copied
     required: true
@@ -10,7 +10,7 @@
     description: destination file/directory to save the copied data
     required: true
 
-- runs:
+runs:
   using: composite
   steps:
     - name: setup ssh file
