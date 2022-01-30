@@ -17,7 +17,7 @@ inputs:
 
   command:
     description: commands to execute
-    require: true
+    required: true
 
 run:
   using: composite
