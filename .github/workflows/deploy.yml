@@ -42,4 +42,4 @@ jobs:
           echo Bar file > foo/bar/bar.txt
 
       - name: copy files via scp
-        run: "scp -F ~/.ssh/config -qr server:~/"
+        run: "scp -F ~/.ssh/config -qr ./foo server:~/"
