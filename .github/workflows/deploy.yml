@@ -6,23 +6,15 @@ on:
       - master
 
 jobs:
-  outzin:
-    runs-on: ubuntu-latest
-    steps:
-      - run: ls -la
-    outputs:
-      hello: world
-
   deploy:
     runs-on: ubuntu-latest
-    needs: outzin
     environment: production
     env:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_USER: ${{ secrets.SSH_USER }}
       SSH_KEY: ${{ secrets.SSH_KEY }}
     steps:
-      #- uses: actions/checkout@v2 # get source code
+      - uses: actions/checkout@v2 # get source code
       #- uses: actions/setup-node@v2 # setup node environmet
       #  with:
       #    node-version: "16"
@@ -31,10 +23,3 @@ jobs:
 
       - name: copy dist
         uses: "./github/actions/deploy-dist.yaml"
-
-      - name: echo needs
-        run: echo '${{ toJSON(needs) }}'
-      - name: Show runner
-        run: echo '${{ toJSON(runner) }}'
-      - name: Show github
-        run: echo '${{ toJSON(github) }}'
