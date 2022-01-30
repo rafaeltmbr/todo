@@ -16,6 +16,7 @@ runs:
   #env:
   #  SCP_SRC: "${{ inputs.source }}"
   #  SCP_DST: "${{ inputs.destination }}"
+  shell: bash
   steps:
     - name: setup ssh file
       run: |
