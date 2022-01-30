@@ -48,4 +48,4 @@ runs:
 
     - name: copy files via scp
       shell: bash
-      run: scp -F ~/.ssh/config -qr ${{ inputs.destination }} server:${{ inputs.source }}
+      run: scp -F ~/.ssh/config -qr ${{ inputs.source }} server:${{ inputs.destination }}
