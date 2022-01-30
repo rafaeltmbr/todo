@@ -40,17 +40,7 @@ jobs:
       #    scp -F ~/.ssh/config -qr dist server:~/foo/dist
 
       - name: Show runner
-        run: |
-          echo > runner.txt <<FINISH
-          ${{ toJSON(runner) }}
-          FINISH
-
-          cat runner.txt
-
+        run: echo '${{ toJSON(runner) }}'
       - name: Show github
         run: |
-          echo > github.txt <<FINISH
-          ${{ toJSON(github) }}
-          FINISH
-
-          cat github.txt
+          echo '${{ toJSON(github) }}'
