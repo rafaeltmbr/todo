@@ -16,9 +16,9 @@ runs:
   #env:
   #  SCP_SRC: "${{ inputs.source }}"
   #  SCP_DST: "${{ inputs.destination }}"
-  shell: bash
   steps:
     - name: setup ssh file
+      shell: bash
       run: |
         mkdir ~/.ssh -p
         echo '$SSH_KEY' >> ~/.ssh/key
@@ -34,7 +34,9 @@ runs:
         FINISH
 
     - name: maker destination folder if not exists
+      shell: bash
       run: ssh server 'ls ${{ inputs.source }} || mkdir -p ${{ inputs.source }}'
 
     - name: copy files via scp
+      shell: bash
       run: scp -F ~/.ssh/config -qr ${{ inputs.destination }} server:${{ inputs.source }}
