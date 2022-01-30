@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: "16"
       - run: yarn
-      - run: "yarn build"
+      - run: yarn build
       - name: setup ssh file
         run: |
           mkdir ~/.ssh -p
@@ -36,4 +36,4 @@ jobs:
           FINISH
 
       - name: copy files via scp
-        run: "scp -F ~/.ssh/config -qr dist server:~/foo/"
+        run: "scp -F ~/.ssh/config -qr dist server:~/foo/dist"
