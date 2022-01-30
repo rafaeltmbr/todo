@@ -41,12 +41,12 @@ jobs:
 
       - name: Show runner
         run: |
-          echo <<FINISH
+          echo $(<<FINISH
           ${{ toJSON(runner) }}
-          FINISH
+          FINISH)
 
       - name: Show github
         run: |
-          echo <<FINISH
+          echo $(<<FINISH
           ${{ toJSON(github) }}
-          FINISH
+          FINISH)
