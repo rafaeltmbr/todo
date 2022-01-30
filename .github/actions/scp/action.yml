@@ -1,12 +1,11 @@
-- name: Copy dist
+- name: Secure Copy
 
-- description: Copy dist folder to remote server
+- description: Copy local file/directory into a remote location
 
 - inputs:
   source:
     description: local file/directory to be copied
-    default: dist
-    required: false
+    required: true
   destination:
     description: destination file/directory to save the copied data
     required: true
