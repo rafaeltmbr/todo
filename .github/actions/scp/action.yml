@@ -30,7 +30,7 @@ runs:
       shell: bash
       run: |
         mkdir ~/.ssh -p
-        echo '${{ inputs.key }}' >> ~/.ssh/key
+        echo "${{ inputs.key }}" >> ~/.ssh/key
         sudo chmod 600 ~/.ssh/key
         cat >>~/.ssh/config <<FINISH
         Host server
