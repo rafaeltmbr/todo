@@ -29,7 +29,8 @@ runs:
           RequestTTY no
         FINISH
 
+    - name: maker destination folder if not exists
+      run: ssh server "ls ${{ inputs.destination }} || mkdir -p ${{ inputs.destination }}"
+
     - name: copy files via scp
-      run: |
-        ssh server "ls ${{ inputs.destination }} || mkdir -p ${{ inputs.destination }}"
-        scp -F ~/.ssh/config -qr ${{ inputs.source }} server:${{ inputs.destination }}
+      run: scp -F ~/.ssh/config -qr ${{ inputs.source }} server:${{ inputs.destination }}
