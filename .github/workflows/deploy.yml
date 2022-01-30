@@ -27,7 +27,7 @@ jobs:
       #    destination: "~/code"
 
       - name: build
-        uses: "./github/actions/ssh"
+        uses: "./.github/actions/ssh"
         with:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
