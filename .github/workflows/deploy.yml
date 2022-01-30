@@ -9,6 +9,7 @@ jobs:
   outzin:
     runs-on: ubuntu-latest
     steps:
+      - run: ls -la
     outputs:
       hello: world
 
