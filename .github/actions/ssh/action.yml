@@ -19,7 +19,7 @@ inputs:
     description: commands to execute
     required: true
 
-run:
+runs:
   using: composite
   steps:
     - name: setup ssh file
