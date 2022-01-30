@@ -1,6 +1,6 @@
-name: Secure Copy
+name: SSH
 
-description: Copy local directories into a remote location
+description: run commands via ssh
 
 inputs:
   user:
@@ -12,19 +12,16 @@ inputs:
     required: true
 
   key:
-    description: ssh identity file
+    description: ssh private key
     required: true
 
-  source:
-    description: local directories (separated by space) to be copied
-    required: true
+  command:
+    description: commands to execute
+    require: true
 
-  destination:
-    description: destination directory to save the copied data
-    required: true
-
-runs:
+run:
   using: composite
+  steps:
   steps:
     - name: setup ssh file
       shell: bash
@@ -42,10 +39,6 @@ runs:
           RequestTTY no
         FINISH
 
-    - name: maker destination folder if not exists
+    - name: execute command
       shell: bash
-      run: ssh server "mkdir -p ${{ inputs.destination }}"
-
-    - name: copy files via scp
-      shell: bash
-      run: scp -F ~/.ssh/config -qr ${{ inputs.source }} server:${{ inputs.destination }}
+      run: ssh server "${{ inputs.command }}"
