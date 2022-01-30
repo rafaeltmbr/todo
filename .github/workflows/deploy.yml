@@ -27,5 +27,5 @@ jobs:
           user: $SSH_USER
           host: $SSH_HOST
           key: ${{ secrets.SSH_KEY }}
-          source: dist
+          source: src
           destination: "~/"
