@@ -44,7 +44,7 @@ runs:
 
     - name: maker destination folder if not exists
       shell: bash
-      run: ssh server 'ls ${{ inputs.source }} || mkdir -p ${{ inputs.source }}'
+      run: ssh server "mkdir -p ${{ inputs.destination }}"
 
     - name: copy files via scp
       shell: bash
