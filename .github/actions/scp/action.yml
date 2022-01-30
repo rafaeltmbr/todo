@@ -30,4 +30,6 @@ runs:
         FINISH
 
     - name: copy files via scp
-      run: scp -F ~/.ssh/config -qr ${{ inputs.source }} server:${{ inputs.destination }}
+      run: |
+        ssh server "ls ${{ inputs.destination }} || mkdir -p ${{ inputs.destination }}"
+        scp -F ~/.ssh/config -qr ${{ inputs.source }} server:${{ inputs.destination }}

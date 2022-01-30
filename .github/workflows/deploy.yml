@@ -23,3 +23,6 @@ jobs:
 
       - name: copy dist
         uses: "./.github/actions/scp"
+        with:
+          source: dist
+          destination: /
