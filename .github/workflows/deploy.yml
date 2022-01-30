@@ -11,11 +11,11 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v2 # get source code
-      #- uses: actions/setup-node@v2 # setup node environmet
-      #  with:
-      #    node-version: "16"
-      #- run: yarn
-      #- run: yarn build
+      - uses: actions/setup-node@v2 # setup node environmet
+        with:
+          node-version: "16"
+      - run: yarn
+      - run: yarn build
 
       - name: copy dist
         uses: "./.github/actions/scp"
