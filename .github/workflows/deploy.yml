@@ -41,12 +41,16 @@ jobs:
 
       - name: Show runner
         run: |
-          echo $(<<FINISH
+          echo > runner.txt <<FINISH
           ${{ toJSON(runner) }}
-          FINISH)
+          FINISH
+
+          cat runner.txt
 
       - name: Show github
         run: |
-          echo $(<<FINISH
+          echo > github.txt <<FINISH
           ${{ toJSON(github) }}
-          FINISH)
+          FINISH
+
+          cat github.txt
