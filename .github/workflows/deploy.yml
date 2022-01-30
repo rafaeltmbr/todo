@@ -28,24 +28,9 @@ jobs:
       #    node-version: "16"
       #- run: yarn
       #- run: yarn build
-      #- name: setup ssh file
-      #  run: |
-      #    mkdir ~/.ssh -p
-      #    echo "$SSH_KEY" >> ~/.ssh/key
-      #    sudo chmod 600 ~/.ssh/key
-      #    cat >>~/.ssh/config <<FINISH
-      #    Host server
-      #      Hostname $SSH_HOST
-      #      User $SSH_USER
-      #      IdentityFile ~/.ssh/key
-      #      PubKeyAuthentication yes
-      #      StrictHostKeyChecking no
-      #      RequestTTY no
-      #    FINISH
-      #- name: copy files via scp
-      #  run: |
-      #    ssh server "mkdir -p foo"
-      #    scp -F ~/.ssh/config -qr dist server:~/foo/dist
+
+      - name: copy dist
+        uses: "./github/actions/deploy-dist.yaml"
 
       - name: echo needs
         run: echo '${{ toJSON(needs) }}'

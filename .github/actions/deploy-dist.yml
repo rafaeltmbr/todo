@@ -1,0 +1,33 @@
+- name: Copy dist
+
+- description: Copy dist folder to remote server
+
+- inputs:
+  source:
+    description: local file/directory to be copied
+    default: dist
+    required: false
+  destination:
+    description: destination file/directory to save the copied data
+    required: true
+
+- runs:
+  using: composite
+  steps:
+    - name: setup ssh file
+      run: |
+        mkdir ~/.ssh -p
+        echo "$SSH_KEY" >> ~/.ssh/key
+        sudo chmod 600 ~/.ssh/key
+        cat >>~/.ssh/config <<FINISH
+        Host server
+          Hostname $SSH_HOST
+          User $SSH_USER
+          IdentityFile ~/.ssh/key
+          PubKeyAuthentication yes
+          StrictHostKeyChecking no
+          RequestTTY no
+        FINISH
+
+    - name: copy files via scp
+      run: scp -F ~/.ssh/config -qr ${{ inputs.source }} server:${{ inputs.destination }}
