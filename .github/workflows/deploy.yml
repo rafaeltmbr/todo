@@ -38,8 +38,8 @@ jobs:
       - name: Make some silly files
         run: |
           mkdir -p foo/bar
-          echo Foo file > foo.txt
+          echo Foo file > foo/foo.txt
           echo Bar file > foo/bar/bar.txt
 
       - name: copy files via scp
-        run: "scp -F ~/.ssh/config -qr ./foo server:~/"
+        run: "scp -F ~/.ssh/config -qr foo server:~/"
