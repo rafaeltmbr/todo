@@ -9,10 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
-    env:
-      SSH_HOST: ${{ secrets.SSH_HOST }}
-      SSH_USER: ${{ secrets.SSH_USER }}
-      SSH_KEY: ${{ secrets.SSH_KEY }}
     steps:
       - uses: actions/checkout@v2 # get source code
       #- uses: actions/setup-node@v2 # setup node environmet
@@ -24,8 +20,8 @@ jobs:
       - name: copy dist
         uses: "./.github/actions/scp"
         with:
-          user: $SSH_USER
-          host: $SSH_HOST
+          user: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: src
-          destination: "~/"
+          source: "!(node_modules|.github|.vscode|docs)"
+          destination: "~/transfered"
