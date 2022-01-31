@@ -23,7 +23,7 @@ jobs:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: dist src
+          source: dist src production .env.example docker-compose.yml Dockerfile
           destination: "~/code"
 
       - name: build
@@ -33,5 +33,5 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           command: |
-            docker exec -it todo "yarn; yarn build;"
+            docker exec -it todo yarn; node node_modules/.bin/typeorm migration:run
             docker restart todo
