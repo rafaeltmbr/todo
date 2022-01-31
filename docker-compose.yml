@@ -34,7 +34,7 @@ services:
     container_name: certbot
     volumes:
       - "./production/certbot/www:/var/www/html:rw"
-      - "./production/certbot/certificate:/etc/letsencrypt/live:rw"
+      - "./production/certbot/certificate:/etc/letsencrypt:rw"
 
   # Get the certificate:
   # docker-compose run --rm certbot certonly --webroot -w /var/www/html -d <domain>
