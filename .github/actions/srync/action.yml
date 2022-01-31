@@ -1,4 +1,4 @@
-name: Secure Copy
+name: Copy with Rsync
 
 description: Copy local directories into a remote location
 
@@ -48,4 +48,4 @@ runs:
 
     - name: copy files via scp
       shell: bash
-      run: scp -F ~/.ssh/config -qr ${{ inputs.source }} server:${{ inputs.destination }}
+      run: rsync -avuzr ${{ inputs.source }} server:${{ inputs.destination }}
