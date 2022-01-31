@@ -11,20 +11,20 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v2 # get source code
-      #- uses: actions/setup-node@v2 # setup node environmet
-      #  with:
-      #    node-version: "16"
-      #- run: yarn
-      #- run: yarn build
-      #
-      #- name: dist
-      #  uses: "./.github/actions/scp"
-      #  with:
-      #    user: ${{ secrets.SSH_USER }}
-      #    host: ${{ secrets.SSH_HOST }}
-      #    key: ${{ secrets.SSH_KEY }}
-      #    source: dist src
-      #    destination: "~/code"
+      - uses: actions/setup-node@v2 # setup node environmet
+        with:
+          node-version: "16"
+      - run: yarn
+      - run: yarn build
+
+      - name: dist
+        uses: "./.github/actions/scp"
+        with:
+          user: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          source: dist src
+          destination: "~/code"
 
       - name: build
         uses: "./.github/actions/ssh"
@@ -33,6 +33,5 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           command: |
-            mkdir ~/ssh_foo
-            cd ~/ssh_foo
-            echo "Hello Foo" > greet.txt
+            docker exec -it todo "yarn; yarn build;"
+            docker restart todo
