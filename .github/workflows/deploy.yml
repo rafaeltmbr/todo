@@ -33,8 +33,9 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           command: |
-            docker run --name deploy_node node:16.13.1
+            docker run --name -dt deploy_node node:16.13.1
             docker exec deploy_node yarn --production
             docker exec deploy_node node node_modules/.bin/typeorm migration:run
-            docker restart todo
+            docker-compose down
+            docker-compose up
             docker rm -f deploy_node
