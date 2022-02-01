@@ -33,5 +33,6 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           command: |
-            docker exec -it todo yarn --production; node node_modules/.bin/typeorm migration:run
+            docker exec todo yarn --production
+            docker exec todo node node_modules/.bin/typeorm migration:run
             docker restart todo
