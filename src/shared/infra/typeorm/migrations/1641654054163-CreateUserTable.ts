@@ -1,4 +1,4 @@
-import "module-alias/register";
+import "../../../config/moduleAlias";
 
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
