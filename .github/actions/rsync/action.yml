@@ -48,4 +48,4 @@ runs:
 
     - name: copy files via scp
       shell: bash
-      run: rsync -avuzr ${{ inputs.source }} server:${{ inputs.destination }}
+      run: rsync -avz ${{ inputs.source }} server:${{ inputs.destination }}
