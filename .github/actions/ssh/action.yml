@@ -11,33 +11,42 @@ inputs:
     description: remote host
     required: true
 
+  port:
+    description: ssh server port
+    required: false
+    default: 22
+
   key:
     description: ssh private key
     required: true
 
-  command:
-    description: commands to execute
+  commands:
+    description: commands to execute on the remote host
     required: true
 
 runs:
   using: composite
   steps:
-    - name: setup ssh file
+    - name: create ssh key file
       shell: bash
       run: |
+        SSH_ACTION_KEY_NAME="SSH_KEY_$RANDOM"
+        echo "SSH_ACTION_KEY_NAME=$SSH_ACTION_KEY_NAME" >> $GITHUB_ENV
+
         mkdir ~/.ssh -p
-        echo "${{ inputs.key }}" >> ~/.ssh/key
-        sudo chmod 600 ~/.ssh/key
-        cat >>~/.ssh/config <<FINISH
-        Host server
-          Hostname ${{ inputs.host }}
-          User ${{ inputs.user }}
-          IdentityFile ~/.ssh/key
-          PubKeyAuthentication yes
-          StrictHostKeyChecking no
-          RequestTTY no
-        FINISH
+        echo "${{ inputs.key }}" >> ~/.ssh/$SSH_ACTION_KEY_NAME
+        sudo chmod 600 ~/.ssh/$SSH_ACTION_KEY_NAME
 
     - name: execute command
       shell: bash
-      run: ssh server "${{ inputs.command }}"
+      run: |
+        ssh -i ~/.ssh/$SSH_ACTION_KEY_NAME \
+        -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no \
+        ${{ inputs.user }}@${{ inpust.host }} -p ${{ inputs.port }} "${{ inputs.commands }}"
+
+    - name: delete ssh key file
+      if: always()
+      shell: bash
+      run: |
+        rm ~/.ssh/$SSH_ACTION_KEY_NAME
+        echo "SSH_ACTION_KEY_NAME=" >> $GITHUB_ENV
