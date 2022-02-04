@@ -42,7 +42,7 @@ runs:
       run: |
         ssh -i ~/.ssh/$SSH_ACTION_KEY_NAME \
         -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no \
-        ${{ inputs.user }}@${{ inpust.host }} -p ${{ inputs.port }} "${{ inputs.commands }}"
+        ${{ inputs.user }}@${{ inputs.host }} -p ${{ inputs.port }} "${{ inputs.commands }}"
 
     - name: delete ssh key file
       if: always()
