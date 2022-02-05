@@ -43,7 +43,9 @@ runs:
 
     - name: maker destination folder if not exists
       shell: bash
-      run: ssh server "mkdir -p ${{ inputs.destination }}"
+      run: |
+        ssh -i ~/.ssh/$RSYNC_ACTION_KEY_NAME -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no \
+        ${{ inputs.user }}@${{ inputs.host }}:${{ inputs.port }} "mkdir -p ${{ inputs.destination }}"
 
     - name: copy files via scp
       shell: bash
