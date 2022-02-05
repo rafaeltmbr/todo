@@ -13,8 +13,7 @@ services:
     networks:
       app_net:
     volumes:
-      - "./.env:/app/.env"
-      - "./ormconfig.json:/app/ormconfig.json"
+      - ".:/app"
 
   nginx:
     image: nginx:latest
@@ -36,3 +35,6 @@ services:
     volumes:
       - "./production/certbot/www:/var/www/html:rw"
       - "./production/certbot/certificate:/etc/letsencrypt:rw"
+
+  # Get the certificate:
+  # docker-compose run --rm certbot certonly --webroot -w /var/www/html -d <domain>

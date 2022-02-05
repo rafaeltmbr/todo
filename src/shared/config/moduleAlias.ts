@@ -2,7 +2,7 @@ import moduleAlias from "module-alias";
 import path from "path";
 
 const contextDir =
-  process.env.CONTEXT?.toLocaleLowerCase() === "production" ? "dist" : "src";
+  process.env.NODE_ENV?.toLocaleLowerCase() === "production" ? "dist" : "src";
 
 moduleAlias.addAliases({
   "@modules": path.resolve(process.cwd(), contextDir, "modules"),
