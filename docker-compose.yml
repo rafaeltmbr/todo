@@ -1,38 +1,55 @@
 version: "3.7"
 
 networks:
-  app_net:
+  todo_network:
 
 services:
-  todo:
-    image: todo
-    container_name: todo
+  app:
+    image: todo-app-dev
+    container_name: todo-app
     ports:
       - 8080:8080
     restart: always
     networks:
-      app_net:
+      todo_network:
     volumes:
-      - "./.env:/app/.env"
-      - "./ormconfig.json:/app/ormconfig.json"
+      - ".:/app"
 
   nginx:
-    image: nginx:latest
-    container_name: nginx
+    image: nginx:stable
+    container_name: todo-nginx
     ports:
       - 80:80
       - 443:443
     restart: always
     networks:
-      app_net:
+      todo_network:
+    environment:
+      SERVER_NAME: localhost
     volumes:
-      - "./production/nginx/conf.d:/etc/nginx/conf.d:ro"
+      - "./production/nginx/templates:/etc/nginx/templates:ro"
       - "./production/certbot/www:/etc/nginx/acme_challenge:ro"
       - "./production/certbot/certificate:/etc/nginx/certificate:ro"
 
   certbot:
     image: certbot/certbot:latest
-    container_name: certbot
+    container_name: todo-certbot
     volumes:
       - "./production/certbot/www:/var/www/html:rw"
       - "./production/certbot/certificate:/etc/letsencrypt:rw"
+
+  postgres:
+    image: postgres:14.1
+    container_name: todo-postgres
+    ports:
+      - 5432:5432
+    restart: always
+    networks:
+      todo_network:
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - "./.database:/var/lib/postgresql/data:rw"
+
+  # Get the certificate:
+  # docker-compose run --rm certbot certonly --webroot -w /var/www/html -d <domain>
