@@ -5,7 +5,7 @@ tmp/
 production/conf.d
 production/certbot
 production/nginx/sites-enabled
-.database/
+.database/*
 
 # application files
 .env
