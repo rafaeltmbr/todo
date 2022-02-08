@@ -8,7 +8,13 @@ server {
     root /etc/nginx/acme_challenge/;
   }
 
+  set $ngnix_env ${NGINX_ENV};
+
   location / {
-    return 301 https://$host$uri;
+    if ($ngnix_env = production) {
+      return 301 https://$host$uri;
+    }
+
+    proxy_pass http://app:8080;
   }
 }

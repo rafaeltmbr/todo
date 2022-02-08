@@ -26,6 +26,7 @@ services:
       todo_network:
     environment:
       SERVER_NAME: localhost
+      NGINX_ENV: development
     volumes:
       - "./production/nginx/templates:/etc/nginx/templates:ro"
       - "./production/certbot/www:/etc/nginx/acme_challenge:ro"
