@@ -1,0 +1,63 @@
+name: Copy with Rsync
+
+description: Copy local directories into a remote location
+
+inputs:
+  user:
+    description: remote machine user
+    required: true
+
+  host:
+    description: remote host
+    required: true
+
+  key:
+    description: ssh identity file
+    required: true
+
+  port:
+    description: ssh server port
+    required: false
+    default: 22
+
+  source:
+    description: local directories (separated by space) to be copied
+    required: true
+
+  destination:
+    description: destination directory to save the copied data
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: setup ssh file
+      shell: bash
+      run: |
+        RSYNC_ACTION_KEY_NAME="SSH_KEY_$RANDOM"
+        echo "RSYNC_ACTION_KEY_NAME=$RSYNC_ACTION_KEY_NAME" >> $GITHUB_ENV
+
+        mkdir ~/.ssh -p
+        echo "${{ inputs.key }}" >> ~/.ssh/$RSYNC_ACTION_KEY_NAME
+        sudo chmod 600 ~/.ssh/$RSYNC_ACTION_KEY_NAME
+
+    - name: maker destination folder if not exists
+      shell: bash
+      run: |
+        ssh -i ~/.ssh/$RSYNC_ACTION_KEY_NAME -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no \
+        ${{ inputs.user }}@${{ inputs.host }} -p ${{ inputs.port }} "mkdir -p ${{ inputs.destination }}"
+
+    - name: copy files via scp
+      shell: bash
+      run: |
+        rsync -cr \
+        -e "ssh -i ~/.ssh/$RSYNC_ACTION_KEY_NAME -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no" \
+        --port ${{ inputs.port}} \
+        ${{ inputs.source }} ${{ inputs.user }}@${{ inputs.host }}:${{ inputs.destination }}
+
+    - name: delete ssh key file
+      if: always()
+      shell: bash
+      run: |
+        rm ~/.ssh/$RSYNC_ACTION_KEY_NAME
+        echo "RSYNC_ACTION_KEY_NAME=" >> $GITHUB_ENV

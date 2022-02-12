@@ -3,7 +3,7 @@
 
 require("dotenv").config();
 
-import "module-alias/register";
+import "../../config/moduleAlias";
 import "reflect-metadata";
 import express from "express";
 import "express-async-errors";

@@ -2,12 +2,16 @@
 node_modules/
 dist/
 tmp/
+production/conf.d
+production/certbot
+production/nginx/sites-enabled
+.database
 
 # application files
 .env
+ormconfig.json
 
 # yarn files
-yarn.lock
 yarn-error.log
 
 # npm files

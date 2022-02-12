@@ -1,5 +1,5 @@
 export const constants = <const>{
-  defaultHttpPort: 3333,
+  defaultHttpPort: 8080,
   minUsernameLength: 3,
   minPasswordLength: 8,
   emailCodeLength: 6,

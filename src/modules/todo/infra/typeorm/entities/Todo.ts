@@ -1,4 +1,4 @@
-import "module-alias/register";
+import "../../../../../shared/config/moduleAlias";
 import { StorageProvider } from "@shared/providers/storage/implementations";
 import {
   AfterLoad,

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 name: "Deploy process 1.0"
+=======
+name: "Deploy process"
+>>>>>>> 6cbf20160bc2936db7099e23996fa6355d4eb4c4
 
 on:
   push:
@@ -6,21 +10,50 @@ on:
       - master
 
 jobs:
-  deploy-app:
+  deploy:
     runs-on: ubuntu-latest
+    environment: production
     steps:
-      - uses: actions/checkout@v2 # get source code
-      - uses: actions/setup-node@v2 # setup node environmet
-        with:
-          node-version: "16"
-      - run: yarn
-      - run: "yarn build"
+      - name: Get source code
+        uses: actions/checkout@v2
 
-  dependencies-only:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2 # get source code
-      - uses: actions/setup-node@v2 # setup node environmet
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
         with:
-          node-version: "16"
-      - run: yarn
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Setup Docker BuildX
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: production/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USER }}/todo:latest
+
+      - name: Copy production folder
+        uses: ./.github/actions/rsync
+        with:
+          user: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ./production
+          destination: ~/todo/
+
+      - name: Setup remote container
+        uses: ./.github/actions/ssh
+        with:
+          user: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          commands: |
+            cd ~/todo
+
+            docker-compose -f production/docker-compose.yml down
+            docker pull ${{ secrets.DOCKERHUB_USER }}/todo:latest
+            docker-compose -f production/docker-compose.yml up -d
+
+            docker exec todo-app node node_modules/.bin/typeorm migration:run
