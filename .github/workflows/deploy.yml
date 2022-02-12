@@ -31,7 +31,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USER }}/todo:latest
 
       - name: Copy docker-compose file
-        uses: ./.github/action/rsync
+        uses: ./.github/actions/rsync
         with:
           ssh_user: ${{ secrets.SSH_USER }}
           ssh_host: ${{ secrets.SSH_HOST }}
