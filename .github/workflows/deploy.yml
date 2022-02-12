@@ -10,33 +10,46 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - uses: actions/checkout@v2 # get source code
-      - uses: actions/setup-node@v2 # setup node environmet
-        with:
-          node-version: "16"
-      - run: yarn
-      - run: yarn build
+      - name: Get source code
+        uses: actions/checkout@v2
 
-      - name: Copy files
-        uses: "./.github/actions/rsync"
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
         with:
-          user: ${{ secrets.SSH_USER }}
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          source: dist production .env.example docker-compose.yml Dockerfile package.json
-          destination: "~/todo"
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Install dependencies and run migrations
-        uses: "./.github/actions/ssh"
+      - name: Setup Docker BuildX
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
         with:
-          user: ${{ secrets.SSH_USER }}
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          commands: |
-            docker run -dt --name deploy_node --volume "/home/ubuntu/todo:/todo" -w /todo node:16.13.1
-            docker exec deploy_node yarn --production
-            docker exec deploy_node node node_modules/.bin/typeorm migration:run
-            docker rm -f deploy_node
+          context: .
+          file: production/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USER }}/todo:latest
+
+      - name: Copy docker-compose file
+        uses: ./.github/action/rsync
+        with:
+          ssh_user: ${{ secrets.SSH_USER }}
+          ssh_host: ${{ secrets.SSH_HOST }}
+          ssh_key: ${{ secrets.SSH_KEY }}
+          source: ./docker-compose.yml
+          destination: ~/todo/
+
+      - name: Setup remote container
+        uses: ./.github/actions/ssh
+        with:
+          ssh_user: ${{ secrets.SSH_USER }}
+          ssh_host: ${{ secrets.SSH_HOST }}
+          ssh_key: ${{ secrets.SSH_KEY }}
+          command: |
             cd ~/todo
-            docker-compose down
-            docker-compose up -d
+
+            docker-compose -f production/docker-compose.yml down
+            docker pull ${{ secrets.DOCKERHUB_USER }}/todo:latest
+            docker-compose -f production/docker-compose.yml up -d
+
+            docker exec todo-app node node_modules/.bin/typeorm migration:run

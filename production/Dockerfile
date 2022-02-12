@@ -10,8 +10,8 @@ RUN yarn && yarn build
 FROM node:lts
 WORKDIR /app
 
-COPY ./package.json ./package.json
-RUN yarn
+COPY ./package.json ./yarn.lock ./
+RUN yarn install --production
 
 COPY ./production ./production
 COPY --from=build /build/dist ./dist
