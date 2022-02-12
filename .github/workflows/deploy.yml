@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-name: "Deploy process 1.0"
-=======
 name: "Deploy process"
->>>>>>> 6cbf20160bc2936db7099e23996fa6355d4eb4c4
 
 on:
   push:
