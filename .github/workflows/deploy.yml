@@ -45,7 +45,7 @@ jobs:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          command: |
+          commands: |
             cd ~/todo
 
             docker-compose -f production/docker-compose.yml down
