@@ -33,18 +33,18 @@ jobs:
       - name: Copy docker-compose file
         uses: ./.github/actions/rsync
         with:
-          ssh_user: ${{ secrets.SSH_USER }}
-          ssh_host: ${{ secrets.SSH_HOST }}
-          ssh_key: ${{ secrets.SSH_KEY }}
+          user: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
           source: ./docker-compose.yml
           destination: ~/todo/
 
       - name: Setup remote container
         uses: ./.github/actions/ssh
         with:
-          ssh_user: ${{ secrets.SSH_USER }}
-          ssh_host: ${{ secrets.SSH_HOST }}
-          ssh_key: ${{ secrets.SSH_KEY }}
+          user: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
           command: |
             cd ~/todo
 
