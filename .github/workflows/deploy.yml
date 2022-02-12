@@ -30,13 +30,13 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/todo:latest
 
-      - name: Copy docker-compose file
+      - name: Copy files
         uses: ./.github/actions/rsync
         with:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: ./docker-compose.yml
+          source: ./docker-compose.yml ./production
           destination: ~/todo/
 
       - name: Setup remote container

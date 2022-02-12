@@ -15,6 +15,7 @@ services:
     volumes:
       - "../.env:/app/.env"
       - "../ormconfig.json:/app/ormconfig.json"
+      - "../production:/app/production"
 
   nginx:
     image: nginx:stable
