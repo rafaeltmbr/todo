@@ -29,6 +29,8 @@ jobs:
           file: production/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/todo:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USER }}/todo:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USER }}/todo:buildcache,mode=max
 
       - name: Copy production folder
         uses: ./.github/actions/rsync
