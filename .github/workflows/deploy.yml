@@ -31,7 +31,9 @@ jobs:
           context: .
           file: production/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USER }}/todo:latest ${{ secrets.DOCKERHUB_USER }}/todo:${{ env.BUILD_IMAGE_TAG }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USER }}/todo:latest
+            ${{ secrets.DOCKERHUB_USER }}/todo:${{ env.BUILD_IMAGE_TAG }}
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USER }}/todo:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USER }}/todo:buildcache,mode=max
 
