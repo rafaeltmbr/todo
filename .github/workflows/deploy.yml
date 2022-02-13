@@ -21,9 +21,9 @@ jobs:
 
       - name: Setup Docker BuildX
         uses: docker/setup-buildx-action@v1
-        
-      - name: Make image tag
-        run: echo "BUILD_IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Make the new image tag
+        run: echo "NEW_IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -33,7 +33,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USER }}/todo:latest
-            ${{ secrets.DOCKERHUB_USER }}/todo:${{ env.BUILD_IMAGE_TAG }}
+            ${{ secrets.DOCKERHUB_USER }}/todo:${{ env.NEW_IMAGE_TAG }}
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USER }}/todo:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USER }}/todo:buildcache,mode=max
 
@@ -55,8 +55,13 @@ jobs:
           commands: |
             cd ~/todo
 
+            # update the containers
             docker-compose -f production/docker-compose.yml down
             docker pull ${{ secrets.DOCKERHUB_USER }}/todo:latest
             docker-compose -f production/docker-compose.yml up -d
 
+            # run migrations
             docker exec todo-app node node_modules/.bin/typeorm migration:run
+
+            # remove all unused images
+            docker image prune -af
