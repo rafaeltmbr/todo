@@ -86,8 +86,8 @@ jobs:
             # run migrations
             docker exec todo-app node node_modules/.bin/typeorm migration:run
 
-            # remove all unused images
-            docker image prune -af
-
             # install ssl certificate if necessary
             scripts/install-ssl-certificate.sh ${{ secrets.SSL_CERTIFICATE_ADDRESS }} ${{ secrets.SSL_CERTIFICATE_EMAIL }}
+
+            # remove all unused images
+            docker image prune -af
