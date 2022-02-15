@@ -23,6 +23,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Make the new image tag
+        shell: bash
         run: echo "NEW_IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Build and push
@@ -37,13 +38,35 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USER }}/todo:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USER }}/todo:buildcache,mode=max
 
+      - name: Create config files
+        shell: bash
+        env:
+          APP_KEY: ${{ secrets.APP_KEY }}
+          API_URL: ${{ secrets.API_URL }}
+
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_DB: ${{ secrets.DB_DB }}
+
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
+
+        run: |
+          envsubst < production/.env.template > production/.env
+          envsubst < production/ormconfig.template.json > production/ormconfig.json
+          rm production/.env.template production/ormconfig.template.json
+
       - name: Copy production folder
         uses: ./.github/actions/rsync
         with:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: ./production .env.example ormconfig.example.json
+          source: ./production
           destination: ~/todo/
 
       - name: Setup remote container
