@@ -76,15 +76,18 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           commands: |
-            cd ~/todo
+            cd ~/todo/production
 
             # update the containers
-            docker-compose -f production/docker-compose.yml down
+            docker-compose down
             docker pull ${{ secrets.DOCKERHUB_USER }}/todo:latest
-            docker-compose -f production/docker-compose.yml up -d
+            docker-compose up -d
 
             # run migrations
             docker exec todo-app node node_modules/.bin/typeorm migration:run
 
             # remove all unused images
             docker image prune -af
+
+            # install ssl certificate if necessary
+            scripts/install-ssl-certificate.sh ${{ secrets.APP_ADDRESS }}
