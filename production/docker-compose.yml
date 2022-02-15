@@ -13,9 +13,9 @@ services:
     networks:
       todo_network:
     volumes:
-      - "../.env:/app/.env"
-      - "../ormconfig.json:/app/ormconfig.json"
-      - "../production:/app/production"
+      - "./.env:/app/.env"
+      - "./ormconfig.json:/app/ormconfig.json"
+      - ".:/app/production"
 
   nginx:
     image: nginx:stable
