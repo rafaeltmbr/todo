@@ -6,8 +6,52 @@ on:
       - master
 
 jobs:
+  install-dependecies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get source code
+        uses: actions/checkout@v2
+
+      - name: Copy scripts to remote server
+        uses: ./.github/actions/rsync
+        with:
+          user: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          source: production/scripts
+          destination: ~/scripts/
+
+      - name: Install dependencies if necessary
+        uses: ./.github/actions/ssh
+        with:
+          user: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          commands: |
+            cd ~/scripts
+
+            NEED_REBOOT=false
+
+            # install docker if necessary
+            which docker || (sudo ./install-docker.sh && NEED_REBOOT=true)
+
+            # install docker-compose if necessary
+            which docker-compose || sudo ./install-docker-compose.sh
+
+            # reboot the machine if necessary
+            if [ "$NEED_REBOOT" = "true" ]; then
+              echo "WAIT_REBOOT=true" >> $GITHUB_ENV
+              echo "rebooting the machine to complete the docker installation";
+              sudo reboot;
+            fi
+
+      - name: Waiting server reboot
+        if: env.WAIT_REBOOT == true
+        run: sleep 30s
+
   deploy:
     runs-on: ubuntu-latest
+    needs: install-dependencies
     environment: production
     steps:
       - name: Get source code
@@ -88,12 +132,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           commands: |
             cd todo/production
-
-            # install docker if necessary
-            which docker || sudo scripts/install-docker.sh
-
-            # install docker-compose if necessary
-            which docker-compose || sudo scripts/install-docker-compose.sh
 
             # update the containers
             docker-compose down

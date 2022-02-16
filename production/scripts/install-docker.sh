@@ -33,7 +33,3 @@ sudo usermod -aG docker $USER
 
 # 7 - verify the install version
 docker --version
-
-# 9 - reboot the machine
-echo "rebooting the machine to complete docker installation"
-sudo reboot
