@@ -2,9 +2,7 @@
 node_modules/
 dist/
 tmp/
-production/conf.d
 production/certbot
-production/nginx/sites-enabled
 .database
 
 # application files

@@ -25,10 +25,7 @@ services:
     restart: always
     networks:
       todo_network:
-    environment:
-      SERVER_NAME: api.rafaeltmbr.com.br
-      NGINX_ENV: production
     volumes:
-      - "./nginx/templates:/etc/nginx/templates:ro"
+      - "./nginx/conf.d:/etc/nginx/conf.d:ro"
       - "./certbot/www:/etc/nginx/acme_challenge:ro"
       - "./certbot/certificate:/etc/nginx/certificate:ro"
