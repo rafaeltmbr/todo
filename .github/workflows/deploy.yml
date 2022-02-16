@@ -39,7 +39,7 @@ jobs:
             which docker-compose || sudo ./install-docker-compose.sh
 
             # reboot the machine if necessary
-            if [ "$NEED_REBOOT" = "true" ]; then
+            if [[ $NEED_REBOOT == "true" ]]; then
               echo "WAIT_REBOOT=true" >> $GITHUB_ENV;
               echo "rebooting the machine to complete the docker installation";
               sudo reboot;
