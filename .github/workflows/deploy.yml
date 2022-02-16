@@ -30,24 +30,38 @@ jobs:
           commands: |
             cd ~/scripts
 
-            NEED_REBOOT=false
+            echo false > .install_docker
+
+            which docker || INSTALL_DOCKER=true
 
             # install docker if necessary
-            which docker || sudo ./install-docker.sh
+            [[ "$INSTALL_DOCKER" == "true" ]] && sudo ./install-docker.sh
 
             # install docker-compose if necessary
             which docker-compose || sudo ./install-docker-compose.sh
 
             # reboot the machine if necessary
-            if [[ $NEED_REBOOT == "true" ]]; then
-              echo "WAIT_REBOOT=true" >> $GITHUB_ENV;
+            if [[ "$INSTALL_DOCKER" == "true" ]]; then
+              echo true > .install_docker
               echo "rebooting the machine to complete the docker installation";
               sudo reboot;
             fi
 
-      - name: Waiting server reboot
-        if: env.WAIT_REBOOT == true
-        run: sleep 30s
+      - name: Copy .install_docker file from remote server
+        uses: ./.github/actions/rsync
+        with:
+          user: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ~/production/scripts/.install_docker
+          destination: ~/production/scripts/
+          copy_from: true
+
+      - name: Wait server reboot if necessary
+        run: |
+          cd ~/scripts
+
+          [[ $(cat .install_docker) == "true"]] && sleep 30s
 
   deploy:
     runs-on: ubuntu-latest

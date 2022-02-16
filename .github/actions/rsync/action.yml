@@ -28,6 +28,11 @@ inputs:
     description: destination directory to save the copied data
     required: true
 
+  copy_from:
+    description: copy data FROM the server instead of TO the server (default)
+    default: false
+    required: false
+
 runs:
   using: composite
   steps:
@@ -47,13 +52,23 @@ runs:
         ssh -i ~/.ssh/$RSYNC_ACTION_KEY_NAME -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no \
         ${{ inputs.user }}@${{ inputs.host }} -p ${{ inputs.port }} "mkdir -p ${{ inputs.destination }}"
 
-    - name: copy files via scp
+    - name: copy files TO the server
+      if: inputs.copy_from == false
       shell: bash
       run: |
         rsync -cr \
         -e "ssh -i ~/.ssh/$RSYNC_ACTION_KEY_NAME -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no" \
         --port ${{ inputs.port}} \
         ${{ inputs.source }} ${{ inputs.user }}@${{ inputs.host }}:${{ inputs.destination }}
+
+    - name: copy files FROM the server
+      if: inputs.copy_from == true
+      shell: bash
+        run: |
+          rsync -cr \
+          -e "ssh -i ~/.ssh/$RSYNC_ACTION_KEY_NAME -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no" \
+          --port ${{ inputs.port}} \
+          ${{ inputs.user }}@${{ inputs.host }}:${{ inputs.source }} ${{ inputs.destination }}
 
     - name: delete ssh key file
       if: always()
