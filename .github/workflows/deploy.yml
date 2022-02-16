@@ -61,7 +61,7 @@ jobs:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: /tmp/todo/scripts/.install_docker
+          source: ~/todo/production/scripts/.should_reboot
           destination: ./production/scripts/
           copy_from: true
 
@@ -71,7 +71,7 @@ jobs:
 
           ls -la
 
-          [[ $(cat .install_docker) == "true"]] && sleep 30s
+          [[ $(cat .should_reboot) == "true"]] && sleep 30s
 
   # deploy:
   #   runs-on: ubuntu-latest
