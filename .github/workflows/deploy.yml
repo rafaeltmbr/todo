@@ -32,7 +32,7 @@ jobs:
 
             echo false > .install_docker
 
-            $INSTALL_DOCKER=false
+            INSTALL_DOCKER=false
 
             echo "' $INSTALL_DOCKER '"
 
