@@ -67,7 +67,7 @@ jobs:
         run: '[[ $(cat production/scripts/.should_reboot) == "true" ]] && echo "SHOULD_REBOOT=true" >> $GITHUB_ENV'
 
       - name: Reboot the server if necessary
-        if: env.SHOULD_REBOOT == "true"
+        if: env.SHOULD_REBOOT == 'true'
         uses: ./.github/actions/ssh
         with:
           user: ${{ secrets.SSH_USER }}
@@ -76,7 +76,7 @@ jobs:
           commands: sudo reboot
 
       - name: Wait server reboot if necessary
-        if: env.SHOULD_REBOOT == "true"
+        if: env.SHOULD_REBOOT == 'true'
         shell: bash
         run: sleep 30s
 
