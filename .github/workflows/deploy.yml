@@ -18,7 +18,7 @@ jobs:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: production/scripts
+          source: ./production/scripts
           destination: ~/todo/production
 
       - name: Install dependencies if necessary
