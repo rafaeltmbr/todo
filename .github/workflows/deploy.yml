@@ -88,7 +88,12 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           commands: |
             cd todo/production/scripts
-            sudo ./install-dependencies.sh
+
+            # install docker if necessary
+            which docker || sudo ./install-docker.sh
+
+            # install docker-compose if necessary
+            which docker-compose || sudo ./install-docker-compose.sh
 
       - name: Setup remote container
         uses: ./.github/actions/ssh
