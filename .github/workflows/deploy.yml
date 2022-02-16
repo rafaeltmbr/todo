@@ -23,6 +23,8 @@ jobs:
 
       - name: Install dependencies if necessary
         uses: ./.github/actions/ssh
+        env:
+          INSTALL_DOCKER_VAR: INSTALL_DOCKER
         with:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
@@ -34,18 +36,18 @@ jobs:
 
             INSTALL_DOCKER=false
 
-            echo "' $INSTALL_DOCKER '"
+            echo "' $INSTALL_DOCKER_VAR '"
 
             which docker || INSTALL_DOCKER=true
 
             # install docker if necessary
-            #[[ "$INSTALL_DOCKER" == "true" ]] && sudo ./install-docker.sh
+            #[[ "$INSTALL_DOCKER_VAR" == "true" ]] && sudo ./install-docker.sh
 
             # install docker-compose if necessary
             #which docker-compose || sudo ./install-docker-compose.sh
 
             # reboot the machine if necessary
-            if [[ "$INSTALL_DOCKER" == "true" ]]; then
+            if [[ "$INSTALL_DOCKER_VAR" == "true" ]]; then
               echo true > .install_docker
               echo "rebooting the machine to complete the docker installation";
               #sudo reboot;
