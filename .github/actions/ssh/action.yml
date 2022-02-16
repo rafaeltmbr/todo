@@ -34,7 +34,6 @@ runs:
         echo "SSH_ACTION_KEY_NAME=$SSH_ACTION_KEY_NAME" >> $GITHUB_ENV
 
         mkdir ~/.ssh -p
-        sudo chmod 600 ~/.ssh
         echo "${{ inputs.key }}" >> ~/.ssh/$SSH_ACTION_KEY_NAME
         sudo chmod 600 ~/.ssh/$SSH_ACTION_KEY_NAME
 
