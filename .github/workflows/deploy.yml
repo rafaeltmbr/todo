@@ -19,7 +19,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           source: production/scripts
-          destination: ~/scripts
+          destination: ~/
 
       - name: Install dependencies if necessary
         uses: ./.github/actions/ssh
@@ -31,8 +31,6 @@ jobs:
             cd ~/scripts
 
             ls -la
-
-            ls -la scripts
 
             NEED_REBOOT=false
 
