@@ -21,7 +21,7 @@ jobs:
           source: production/scripts
           destination: ~/todo/production
 
-      - name: Install dependencies if necessary
+      - name: Install docker and docker-compose
         uses: ./.github/actions/ssh
         env:
           INSTALL_DOCKER_VAR: $INSTALL_DOCKER
@@ -47,7 +47,7 @@ jobs:
             # reboot the machine if necessary
             if [[ "$INSTALL_DOCKER_VAR" == "true" ]]; then
               echo true > .should_reboot
-              echo "Reboot the server to complete the docker installation.";
+              echo "Reboot the server to complete the docker installation."
             else
               echo "Docker already installed."
             fi
