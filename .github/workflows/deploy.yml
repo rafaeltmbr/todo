@@ -19,7 +19,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           source: production/scripts
-          destination: /tmp/todo
+          destination: ~/todo/production
 
       - name: Install dependencies if necessary
         uses: ./.github/actions/ssh
@@ -30,7 +30,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           commands: |
-            cd /tmp/todo/scripts
+            cd ~/todo/production/scripts
 
             echo false > .should_reboot
 
