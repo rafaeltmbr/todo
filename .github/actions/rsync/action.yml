@@ -40,9 +40,10 @@ runs:
       shell: bash
       run: |
         # create a key file name if necessary
-        [[ -z ${GIB+x} ]] && RSYNC_ACTION_KEY_NAME="SSH_KEY_$RANDOM"
-
-        echo "RSYNC_ACTION_KEY_NAME=$RSYNC_ACTION_KEY_NAME" >> $GITHUB_ENV
+        if [[ -z ${RSYNC_ACTION_KEY_NAME+x} ]]; then
+          RSYNC_ACTION_KEY_NAME="SSH_KEY_$RANDOM";
+          echo "RSYNC_ACTION_KEY_NAME=$RSYNC_ACTION_KEY_NAME" >> $GITHUB_ENV;
+        fi
 
         mkdir ~/.ssh -p
         echo "${{ inputs.key }}" >> ~/.ssh/$RSYNC_ACTION_KEY_NAME
