@@ -33,3 +33,6 @@ sudo usermod -aG docker $USER
 
 # 7 - verify the install version
 docker --version
+
+# 8 - reboot signal
+export NEED_REBOOT=true
