@@ -89,14 +89,13 @@ jobs:
           commands: |
             cd todo/production
 
+            echo "HERE"
+
             # install docker if necessary
             which docker || sudo scripts/install-docker.sh
 
             # install docker-compose if necessary
             which docker-compose || sudo scripts/install-docker-compose.sh
-
-            # install dependencies (docker, docker-compose etc)
-            sudo scripts/install-dependencies.sh
 
             # update the containers
             docker-compose down
