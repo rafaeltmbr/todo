@@ -89,8 +89,6 @@ jobs:
           commands: |
             cd todo/production
 
-            echo "HERE"
-
             # install docker if necessary
             which docker || sudo scripts/install-docker.sh
 
