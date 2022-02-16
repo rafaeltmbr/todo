@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies if necessary
         uses: ./.github/actions/ssh
         env:
-          INSTALL_DOCKER_VAR: INSTALL_DOCKER
+          INSTALL_DOCKER_VAR: $INSTALL_DOCKER
         with:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
