@@ -62,7 +62,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           source: ~/production/scripts/.install_docker
-          destination: ~/production/scripts/
+          destination: ./production/scripts/
           copy_from: true
 
       - name: Wait server reboot if necessary
