@@ -77,7 +77,7 @@ jobs:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: ~/production
+          source: production
           destination: ~/todo/
 
       - name: Setup remote container
