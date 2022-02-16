@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  install-dependecies:
+  install-dependencies:
     runs-on: ubuntu-latest
     steps:
       - name: Get source code
