@@ -50,14 +50,14 @@ runs:
         sudo chmod 600 ~/.ssh/$RSYNC_ACTION_KEY_NAME
 
     - name: maker remote folder if not exists
-      if: ! inputs.copy_from
+      if: inputs.copy_from == false
       shell: bash
       run: |
         ssh -i ~/.ssh/$RSYNC_ACTION_KEY_NAME -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no \
         ${{ inputs.user }}@${{ inputs.host }} -p ${{ inputs.port }} "mkdir -p ${{ inputs.destination }}"
 
     - name: copy files TO the server
-      if: ! inputs.copy_from
+      if: inputs.copy_from == false
       shell: bash
       run: |
         rsync -cr \
