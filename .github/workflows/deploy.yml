@@ -43,7 +43,7 @@ jobs:
         env:
           SERVER_NAME: ${{ secrets.SSL_CERTIFICATE_ADDRESS }}
         run: |
-          cd ~/production/nginx/conf.d
+          cd production/nginx/conf.d
           envsubst < http.conf.template > http.conf
           envsubst < https.conf.template > https.conf.disabled
           rm http.conf.template https.conf.template
@@ -66,13 +66,13 @@ jobs:
           MAIL_PASS: ${{ secrets.MAIL_PASS }}
 
         run: |
-          cd ~/production
+          cd production
           envsubst < .env.template > .env
           envsubst < ormconfig.template.json > ormconfig.json
           rm .env.template ormconfig.template.json
 
       - name: Copy production folder
-        uses: ~/.github/actions/rsync
+        uses: ./.github/actions/rsync
         with:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
@@ -81,13 +81,13 @@ jobs:
           destination: ~/todo/
 
       - name: Setup remote container
-        uses: ~/.github/actions/ssh
+        uses: ./.github/actions/ssh
         with:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           commands: |
-            cd ~/todo/production
+            cd todo/production
 
             # update the containers
             docker-compose down
