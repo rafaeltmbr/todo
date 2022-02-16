@@ -71,7 +71,7 @@ jobs:
 
           ls -la
 
-          [[ $(cat .should_reboot) == "true"]] && sleep 30s
+          [[ $(cat .should_reboot) == "true" ]] && sleep 30s
 
   # deploy:
   #   runs-on: ubuntu-latest
