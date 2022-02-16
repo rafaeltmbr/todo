@@ -30,6 +30,10 @@ jobs:
           commands: |
             cd ~/scripts
 
+            ls -la
+
+            ls -la scripts
+
             NEED_REBOOT=false
 
             # install docker if necessary
@@ -40,7 +44,7 @@ jobs:
 
             # reboot the machine if necessary
             if [ "$NEED_REBOOT" = "true" ]; then
-              echo "WAIT_REBOOT=true" >> $GITHUB_ENV
+              echo "WAIT_REBOOT=true" >> $GITHUB_ENV;
               echo "rebooting the machine to complete the docker installation";
               sudo reboot;
             fi
