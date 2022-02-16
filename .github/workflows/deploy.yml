@@ -80,21 +80,6 @@ jobs:
           source: production
           destination: ~/todo/
 
-      - name: Install depencencies (docker, docker-compose etc)
-        uses: ./.github/actions/ssh
-        with:
-          user: ${{ secrets.SSH_USER }}
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          commands: |
-            cd todo/production/scripts
-
-            # install docker if necessary
-            which docker || sudo ./install-docker.sh
-
-            # install docker-compose if necessary
-            which docker-compose || sudo ./install-docker-compose.sh
-
       - name: Setup remote container
         uses: ./.github/actions/ssh
         with:
@@ -103,6 +88,12 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           commands: |
             cd todo/production
+
+            # install docker if necessary
+            which docker || sudo scripts/install-docker.sh
+
+            # install docker-compose if necessary
+            which docker-compose || sudo scripts/install-docker-compose.sh
 
             # install dependencies (docker, docker-compose etc)
             sudo scripts/install-dependencies.sh
