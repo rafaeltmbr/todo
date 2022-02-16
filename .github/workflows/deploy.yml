@@ -19,7 +19,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           source: production/scripts
-          destination: ~/
+          destination: /tmp/todo
 
       - name: Install dependencies if necessary
         uses: ./.github/actions/ssh
@@ -30,9 +30,9 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           commands: |
-            cd ~/scripts
+            cd /tmp/todo/scripts
 
-            echo false > .install_docker
+            echo false > .should_reboot
 
             INSTALL_DOCKER=false
 
@@ -48,7 +48,7 @@ jobs:
 
             # reboot the machine if necessary
             if [[ "$INSTALL_DOCKER_VAR" == "true" ]]; then
-              echo true > .install_docker
+              echo true > .should_reboot
               echo "rebooting the machine to complete the docker installation";
               #sudo reboot;
             else
@@ -61,7 +61,7 @@ jobs:
           user: ${{ secrets.SSH_USER }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: ~/scripts/.install_docker
+          source: /tmp/todo/scripts/.install_docker
           destination: ./production/scripts/
           copy_from: true
 
