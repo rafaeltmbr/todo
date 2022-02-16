@@ -67,7 +67,7 @@ jobs:
 
       - name: Wait server reboot if necessary
         run: |
-          cd ~/production/scripts
+          cd production/scripts
 
           ls -la
 
