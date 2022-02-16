@@ -30,8 +30,11 @@ runs:
     - name: create ssh key file
       shell: bash
       run: |
-        SSH_ACTION_KEY_NAME="SSH_KEY_$RANDOM"
-        echo "SSH_ACTION_KEY_NAME=$SSH_ACTION_KEY_NAME" >> $GITHUB_ENV
+        # create a key file name if necessary
+        if [[ -z ${SSH_ACTION_KEY_NAME+x} ]]; then
+          SSH_ACTION_KEY_NAME="SSH_KEY_$RANDOM";
+          echo "SSH_ACTION_KEY_NAME=$SSH_ACTION_KEY_NAME" >> $GITHUB_ENV;
+        fi
 
         mkdir ~/.ssh -p
         echo "${{ inputs.key }}" >> ~/.ssh/$SSH_ACTION_KEY_NAME
