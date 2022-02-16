@@ -32,6 +32,10 @@ jobs:
 
             echo false > .install_docker
 
+            $INSTALL_DOCKER=false
+
+            echo "' $INSTALL_DOCKER '"
+
             which docker || INSTALL_DOCKER=true
 
             # install docker if necessary
