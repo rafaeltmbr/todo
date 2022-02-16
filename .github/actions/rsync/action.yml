@@ -39,14 +39,17 @@ runs:
     - name: setup ssh file
       shell: bash
       run: |
-        RSYNC_ACTION_KEY_NAME="SSH_KEY_$RANDOM"
+        # create a key file name if necessary
+        [[ -z ${GIB+x} ]] && RSYNC_ACTION_KEY_NAME="SSH_KEY_$RANDOM"
+
         echo "RSYNC_ACTION_KEY_NAME=$RSYNC_ACTION_KEY_NAME" >> $GITHUB_ENV
 
         mkdir ~/.ssh -p
         echo "${{ inputs.key }}" >> ~/.ssh/$RSYNC_ACTION_KEY_NAME
         sudo chmod 600 ~/.ssh/$RSYNC_ACTION_KEY_NAME
 
-    - name: maker destination folder if not exists
+    - name: maker remote folder if not exists
+      if: inputs.copy_from == false
       shell: bash
       run: |
         ssh -i ~/.ssh/$RSYNC_ACTION_KEY_NAME -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no \
@@ -75,4 +78,3 @@ runs:
       shell: bash
       run: |
         rm ~/.ssh/$RSYNC_ACTION_KEY_NAME
-        echo "RSYNC_ACTION_KEY_NAME=" >> $GITHUB_ENV
