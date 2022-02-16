@@ -88,7 +88,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           commands: |
             cd todo/production/scripts
-            sudo scripts/install-dependencies.sh
+            sudo install-dependencies.sh
 
       - name: Setup remote container
         uses: ./.github/actions/ssh
