@@ -39,10 +39,10 @@ jobs:
             which docker || INSTALL_DOCKER=true
 
             # install docker if necessary
-            [[ "$INSTALL_DOCKER_VAR" == "true" ]] && sudo ./install-docker.sh
+            [[ "$INSTALL_DOCKER_VAR" == "true" ]] && ./install-docker.sh
 
             # install docker-compose if necessary
-            which docker-compose || sudo ./install-docker-compose.sh
+            which docker-compose || ./install-docker-compose.sh
 
             # reboot the machine if necessary
             if [[ "$INSTALL_DOCKER_VAR" == "true" ]]; then
