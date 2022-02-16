@@ -90,7 +90,7 @@ jobs:
             cd todo/production
 
             # install dependencies (docker, docker-compose etc)
-            scripts/install-dependencies.sh
+            sudo scripts/install-dependencies.sh
 
             # update the containers
             docker-compose down

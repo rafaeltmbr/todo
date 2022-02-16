@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # install docker if necessary
-which (docker) || ./install-docker.sh
+which (docker) || sudo ./install-docker.sh
 
 # install docker-compose if necessary
-which (docker-compose) || ./install-docker-compose.sh
+which (docker-compose) || sudo ./install-docker-compose.sh
