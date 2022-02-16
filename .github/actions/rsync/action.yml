@@ -64,11 +64,11 @@ runs:
     - name: copy files FROM the server
       if: inputs.copy_from == true
       shell: bash
-        run: |
-          rsync -cr \
-          -e "ssh -i ~/.ssh/$RSYNC_ACTION_KEY_NAME -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no" \
-          --port ${{ inputs.port}} \
-          ${{ inputs.user }}@${{ inputs.host }}:${{ inputs.source }} ${{ inputs.destination }}
+      run: |
+        rsync -cr \
+        -e "ssh -i ~/.ssh/$RSYNC_ACTION_KEY_NAME -o PubKeyAuthentication=yes -o StrictHostKeyChecking=no -o RequestTTY=no" \
+        --port ${{ inputs.port}} \
+        ${{ inputs.user }}@${{ inputs.host }}:${{ inputs.source }} ${{ inputs.destination }}
 
     - name: delete ssh key file
       if: always()
