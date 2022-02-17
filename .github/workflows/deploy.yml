@@ -39,7 +39,9 @@ jobs:
             which docker || INSTALL_DOCKER=true
 
             # install docker if necessary
-            [[ "$INSTALL_DOCKER_VAR" == "true" ]] && ./install-docker.sh
+            if [[ "$INSTALL_DOCKER_VAR" == "true" ]]; then
+              ./install-docker.sh
+            fi
 
             # install docker-compose if necessary
             which docker-compose || ./install-docker-compose.sh
@@ -47,9 +49,9 @@ jobs:
             # reboot the machine if necessary
             if [[ "$INSTALL_DOCKER_VAR" == "true" ]]; then
               echo true > .should_reboot
-              echo "Reboot the server to complete the docker installation."
+              echo "Reboot the system to complete the docker installation."
             else
-              echo "Docker already installed."
+              echo "Docker already installed. No system reboot is needed."
             fi
 
       - name: Copy .install_docker file from remote server
@@ -65,9 +67,6 @@ jobs:
       - name: Check if reboot is needed
         shell: bash
         run: |
-          ls -la production/scripts
-          cat production/scripts/.should_reboot
-
           if [[ $(cat production/scripts/.should_reboot) == "true" ]]; then
             echo "SHOULD_REBOOT=true" >> $GITHUB_ENV
           fi
