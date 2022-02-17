@@ -64,7 +64,11 @@ jobs:
 
       - name: Check if reboot is needed
         shell: bash
-        run: '[[ $(cat production/scripts/.should_reboot) == "true" ]] && echo "SHOULD_REBOOT=true" >> $GITHUB_ENV'
+        run: |
+          ls -la production/scripts
+          cat production/scripts/.should_reboot
+
+          [[ $(cat production/scripts/.should_reboot) == "true" ]] && echo "SHOULD_REBOOT=true" >> $GITHUB_ENV
 
       - name: Reboot the server if necessary
         if: env.SHOULD_REBOOT == 'true'
