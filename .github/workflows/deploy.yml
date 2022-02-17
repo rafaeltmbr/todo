@@ -68,7 +68,9 @@ jobs:
           ls -la production/scripts
           cat production/scripts/.should_reboot
 
-          [[ $(cat production/scripts/.should_reboot) == "true" ]] && echo "SHOULD_REBOOT=true" >> $GITHUB_ENV
+          if [[ $(cat production/scripts/.should_reboot) == "true" ]]; then
+            echo "SHOULD_REBOOT=true" >> $GITHUB_ENV
+          fi
 
       - name: Reboot the server if necessary
         if: env.SHOULD_REBOOT == 'true'
