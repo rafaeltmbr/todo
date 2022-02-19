@@ -124,6 +124,11 @@ jobs:
         shell: bash
         run: |
           cd production/nginx/conf.d
+
+          # maker sure envsubst don't replace these nginx variables:
+          export uri='$uri'
+          export host='$host'
+
           envsubst < http.conf.template > http.conf
           envsubst < https.conf.template > https.conf.disabled
           rm http.conf.template https.conf.template
