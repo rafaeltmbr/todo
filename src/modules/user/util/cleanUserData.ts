@@ -5,5 +5,5 @@ export const cleanUserData = (user: User) => ({
   name: user.name,
   email: user.email,
   created_at: user.created_at,
-  // updated_at: user.updated_at,
+  updated_at: user.updated_at,
 });

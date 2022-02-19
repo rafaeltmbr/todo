@@ -23,6 +23,10 @@ services:
       - 80:80
       - 443:443
     restart: always
+    env:
+      host: $host
+      uri: $uri
+
     networks:
       todo_network:
     volumes:
