@@ -16,6 +16,7 @@ export const errorType = <const>[
   "emailCodeInvalid",
   "emailCodeExpired",
   "emailCodeMaximumAttempts",
+  "emailCooldown",
   "tokenMissing",
   "appKeyMissing",
   "operationNotPermitted",
@@ -53,6 +54,13 @@ export const errorMessages: Record<ErrorType, IErrorDescription> = {
     message: {
       en: "Maximum email code attempts limit reached.",
       pt: "Limite máximo de verificação de código atingido.",
+    },
+  },
+  emailCooldown: {
+    status: httpStatusCode.forbidden.status,
+    message: {
+      en: "Maximum email send code attempts. Please, try again later.",
+      pt: "Limite máximo de envio de emails atingido. Por favor, tente novamente mais tarde.",
     },
   },
   tokenMissing: {
