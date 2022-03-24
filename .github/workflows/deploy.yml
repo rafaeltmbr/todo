@@ -177,7 +177,7 @@ jobs:
 
             # update the containers
             docker pull ${{ secrets.DOCKERHUB_USER }}/todo:latest && docker-compose down
-            docker-compose up -d
+            docker-compose up -d 
 
             # run migrations
             docker exec todo-app node node_modules/.bin/typeorm migration:run
