@@ -107,6 +107,7 @@ jobs:
         run: echo "NEW_IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Build and push
+        if: false
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -175,8 +176,7 @@ jobs:
             cd todo/production
 
             # update the containers
-            docker pull ${{ secrets.DOCKERHUB_USER }}/todo:latest
-            docker-compose down
+            docker pull ${{ secrets.DOCKERHUB_USER }}/todo:latest && docker-compose down
             docker-compose up -d
 
             # run migrations
